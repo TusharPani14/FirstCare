@@ -1,6 +1,6 @@
 
 import { createTheme } from '@mui/material/styles';
-import { green} from '@mui/material/colors';
+
 
 export const Theme = createTheme({
   palette: {
@@ -8,7 +8,7 @@ export const Theme = createTheme({
       main: '#ffc801',
     },
     secondary: {
-      main: green[500],
+      main: "#000",
     },
   },
 });

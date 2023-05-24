@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import SignIn from "./Pages/AdminPages/SignIn";
 import LogIn from "./Pages/UserPages/Login";
+import StockList from "./Pages/AdminPages/StockList";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/adminLogin" element={<SignIn />} />
         <Route path="/userLogin" element={<LogIn />} />
+        <Route path="/" element={<StockList/>} />
       </Routes>
     </>
   );
