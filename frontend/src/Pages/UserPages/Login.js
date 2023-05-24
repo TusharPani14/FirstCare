@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
-import Img from "../Assets/loginImg.png";
-import Logo from "../Assets/logo.png";
+import Img from "../../Assets/loginImg.png";
+import Logo from "../../Assets/logo.png";
 
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Link } from "react-router-dom";
 
-const SignIn = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -48,7 +49,7 @@ const SignIn = () => {
             alt="The house from the offer."
             src={Logo}
           />
-          <Button
+        <Link to="/">  <Button
             variant="contained"
             color="primary"
             sx={{
@@ -60,8 +61,8 @@ const SignIn = () => {
               textTransform: "capitalize",
             }}
           >
-            User Login
-          </Button>
+            Admin Login
+          </Button></Link>
         </Stack>
 
         <Stack
@@ -73,7 +74,6 @@ const SignIn = () => {
             height: "85vh",
             padding: "5px 30px",
             justifyContent: "space-evenly",
-            // background: "yellow",
           }}
         >
           <Stack
@@ -102,7 +102,7 @@ const SignIn = () => {
                 ":hover": "fontSize:100px",
               }}
             >
-              Admin Login
+              User Login
             </Typography>
             <Typography
               sx={{
@@ -222,4 +222,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

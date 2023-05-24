@@ -1,29 +1,15 @@
-import SignIn from "./AdminPages/SignIn";
-
-
-
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { green} from '@mui/material/colors';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#ffc801',
-    },
-    secondary: {
-      main: green[500],
-    },
-  },
-});
-
+import { Route, Routes } from "react-router-dom";
+import SignIn from "./Pages/AdminPages/SignIn";
+import LogIn from "./Pages/UserPages/Login";
 
 function App() {
   return (
-   <>
-   <ThemeProvider theme={theme}>
- <SignIn/>
-   </ThemeProvider>
-   </>
+    <>
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/userLogin" element={<LogIn />} />
+      </Routes>
+    </>
   );
 }
 
