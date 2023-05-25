@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -17,6 +17,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Data } from "../../Utils/TrialData";
+
 
 function createData(
   serial,
@@ -32,22 +34,78 @@ function createData(
   return { serial, hsn, name, pack, batch, expiry, quantity, free, rate };
 }
 
-const rows = [
-  createData(1, 5055, "ASPRIN 50MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  createData(1, 5055, "ASPRIN 500MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
-  
-];
+// const Data = [
+//   createData(2, 5055, "ASPRIN 50MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
+// ];
+// const NewData =  Data.sort((a,b)=>{
+//   return a.hsn - b.hsn
+// });
+
+
 
 const StockList = () => {
+
+  // sorting function
+  const [sortMethod, setSortMethod] = useState("");
+  let NewData = Data;
+  switch (sortMethod) {
+    case "name":
+      NewData = Data.sort((a, b) => {
+        let fa = a.name.toLowerCase(),
+            fb = b.name.toLowerCase();
+      
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+      // console.log(NewData)
+      
+      break;
+    case "date":
+      NewData = Data.sort((a, b) => {
+        let da = new Date(a.expiry),
+            db = new Date(b.expiry);
+        return da - db;
+    });
+      
+      break;
+      
+    case "batch":
+      NewData = Data.sort((a, b) => {
+        let fa = a.batch.toLowerCase(),
+            fb = b.batch.toLowerCase();
+      
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+      // console.log(NewData)
+      
+      break;
+
+    case "hsn":
+      Data.sort((a,b)=>{
+          return a.hsn - b.hsn
+        });
+      
+      break;
+  
+    default:
+      break;
+  }
+
+
+
+  // sorting function
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleMenu = (event) => {
@@ -57,6 +115,10 @@ const StockList = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleClick =()=>{
+    Data.push(createData(1, 5045, "ASPRIN 500MG", `14*10`, "A4D45668", "03/25", 30, 30, 144));
+    console.log(Data);
+  }
   return (
     <>
       <Box>
@@ -207,6 +269,7 @@ const StockList = () => {
             alignItems:{xs:"left",sm:"center"}}}>
             <Button
               variant="outlined"
+              onClick={handleClick}
               color="secondary"
               style={{ outline: "none" }}
               sx={{
@@ -227,6 +290,7 @@ const StockList = () => {
                 padding: { xs: "5px", sm: "6px 15px", xl: "12px 35px" },
                 fontSize: { xs: "12px", xl: "24px" },
                 fontWeight: "600",
+                "&:hover":{margin:" 0 1px",transform:"scale(0.99)"}
               }}
             >
               Delete Stock
@@ -234,6 +298,12 @@ const StockList = () => {
             <Button
               variant="contained"
               color="primary"
+              size="large"
+                aria-label="sorting method for below table"
+                aria-controls="sort"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                
               sx={{
                 fontWeight: "600",
                 borderRadius: "40px",
@@ -245,9 +315,53 @@ const StockList = () => {
             >
               Sort By
             </Button>
+            <Menu
+            sx={{padding:"100px"}}
+                id="sort"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem
+                  onClick={()=>{setSortMethod('name'); console.log(sortMethod)}}
+                  sx={{ textDecoration: "none", margin: "5px 0"}}
+                >
+                  Name
+                </MenuItem>
+                  <MenuItem
+                    onClick={()=>setSortMethod('hsn')}
+                    sx={{ textDecoration: "none" }}
+                  >
+                    HSN
+                  </MenuItem>
+                {/* <Link to="/"> */}
+                  <MenuItem
+                   onClick={()=>setSortMethod('date')}
+                    sx={{ textDecoration: "none" }}
+                  >
+                   Expiry Date
+                  </MenuItem>
+                  <MenuItem
+                    onClick={()=>setSortMethod('batch')}
+                    sx={{ textDecoration: "none" }}
+                  >
+                    Batch
+                  </MenuItem>
+                {/* </Link> */}
+              </Menu>
           </Stack>
         </Stack>
-        {/*  */}
+        
+        {/*Table */}
 
         <Box sx={{ padding: "15px 30px" }}>
           <TableContainer component={Paper} elevation={0}>
@@ -278,12 +392,12 @@ const StockList = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {NewData.map((row,index) => (
                   <TableRow
-                    key={row.name}
+                    key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{row.serial}</TableCell>
+                    <TableCell>{index+1}</TableCell>
                     <TableCell sx={{ marginLeft: "-10px" }} align="left">
                       {row.hsn}
                     </TableCell>
