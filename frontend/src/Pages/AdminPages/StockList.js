@@ -18,21 +18,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Data } from "../../Utils/TrialData";
+import { CustYellowButton } from "../../Utils/Theme";
 
 
-function createData(
-  serial,
-  hsn,
-  name,
-  pack,
-  batch,
-  expiry,
-  quantity,
-  free,
-  rate
-) {
-  return { serial, hsn, name, pack, batch, expiry, quantity, free, rate };
-}
+
+
+// function createData(
+//   serial,
+//   hsn,
+//   name,
+//   pack,
+//   batch,
+//   expiry,
+//   quantity,
+//   free,
+//   rate
+// ) {
+//   return { serial, hsn, name, pack, batch, expiry, quantity, free, rate };
+// }
 
 // const Data = [
 //   createData(2, 5055, "ASPRIN 50MG", `15*10`, "AOD45668", "03/26", 20, 0, 154),
@@ -40,7 +43,6 @@ function createData(
 // const NewData =  Data.sort((a,b)=>{
 //   return a.hsn - b.hsn
 // });
-
 
 
 const StockList = () => {
@@ -107,18 +109,22 @@ const StockList = () => {
   // sorting function
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleMenu2 = (event) => {
+    setAnchorEl2(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClick =()=>{
-    Data.push(createData(1, 5045, "ASPRIN 500MG", `14*10`, "A4D45668", "03/25", 30, 30, 144));
-    console.log(Data);
-  }
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+  
   return (
     <>
       <Box>
@@ -133,7 +139,7 @@ const StockList = () => {
               sm: "0px 40px",
               md: "0px 30px 0 40px",
               lg: "0px 0px 0 30px",
-              xl: "15px 100px",
+              xl: "15px 5px 15px 30px ",
             },
           }}
         >
@@ -157,7 +163,7 @@ const StockList = () => {
           >
             <Typography
               sx={{
-                fontSize: "15px",
+                fontSize: {xs:"15px",xl:"23px"},
                 cursor: "pointer",
                 textDecoration: "underline",
                 display: { xs: "none", md: "block" },
@@ -167,7 +173,7 @@ const StockList = () => {
             </Typography>
             <Typography
               sx={{
-                fontSize: "15px",
+                fontSize: {xs:"15px",xl:"23px"},
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
@@ -176,27 +182,23 @@ const StockList = () => {
             </Typography>
             <SettingsIcon
               sx={{
-                fontSize: "20px",
+                fontSize: { xs: "20px", xl: "28px" },
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
             />
-            <Link to="/userLogin">
-              <Button
+            <Link to="/adminLogin">
+              <CustYellowButton
                 variant="contained"
                 color="primary"
                 sx={{
-                  fontWeight: "600",
-                  borderRadius: "40px",
-                  letterSpacing: "-0.008em",
-                  fontSize: { xs: "12px", sm: "13px", xl: "24px" },
-                  padding: { xs: "5px 15px", sm: "7px 24px", xl: "12px 35px" },
-                  textTransform: "capitalize",
+                  fontSize: { xs: "12px", sm: "13px", xl: "19px" },
+                  padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
                   display: { xs: "none", md: "block" },
                 }}
               >
                 Logout
-              </Button>
+              </CustYellowButton>
             </Link>
             {/*  */}
             <div>
@@ -262,20 +264,19 @@ const StockList = () => {
             position: "relative",
           }}
         >
-          <Typography sx={{ fontSize: "21px", fontWeight: "700" }}>
+          <Typography sx={{ fontSize: { xs: "21px", xl: "29px" }, fontWeight: "700" }}>
             Stock List
           </Typography>
           <Stack direction="row" gap="20px" sx={{  justifyContent:{xs:"left",sm:"space-between"},
             alignItems:{xs:"left",sm:"center"}}}>
             <Button
               variant="outlined"
-              onClick={handleClick}
               color="secondary"
               style={{ outline: "none" }}
               sx={{
                 border: "2px solid #000",
-                padding: { xs: "5px", sm: "6px 15px", xl: "12px 35px" },
-                fontSize: { xs: "12px", xl: "24px" },
+                padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
+                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
                 fontWeight: "600",
               }}
             >
@@ -287,38 +288,34 @@ const StockList = () => {
               style={{ outline: "none" }}
               sx={{
                 border: "2px solid #000",
-                padding: { xs: "5px", sm: "6px 15px", xl: "12px 35px" },
-                fontSize: { xs: "12px", xl: "24px" },
+                padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
+                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
                 fontWeight: "600",
                 "&:hover":{margin:" 0 1px",transform:"scale(0.99)"}
               }}
             >
               Delete Stock
             </Button>
-            <Button
+            <CustYellowButton
               variant="contained"
               color="primary"
               size="large"
                 aria-label="sorting method for below table"
                 aria-controls="sort"
                 aria-haspopup="true"
-                onClick={handleMenu}
+                onClick={handleMenu2}
                 
               sx={{
-                fontWeight: "600",
-                borderRadius: "40px",
-                letterSpacing: "-0.008em",
-                fontSize: { xs: "12px", sm: "13px", xl: "24px" },
-                padding: { xs: "5px 15px", sm: "7px 24px", xl: "12px 35px" },
-                textTransform: "capitalize",
+                fontSize: { xs: "12px", sm: "13px", xl: "19px" },
+                  padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
               }}
             >
               Sort By
-            </Button>
+            </CustYellowButton>
             <Menu
             sx={{padding:"100px"}}
                 id="sort"
-                anchorEl={anchorEl}
+                anchorEl={anchorEl2}
                 anchorOrigin={{
                   vertical: "top",
                   horizontal: "right",
@@ -328,8 +325,8 @@ const StockList = () => {
                   vertical: "top",
                   horizontal: "right",
                 }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
+                open={Boolean(anchorEl2)}
+                onClose={handleClose2}
               >
                 <MenuItem
                   onClick={()=>{setSortMethod('name'); console.log(sortMethod)}}
@@ -365,28 +362,28 @@ const StockList = () => {
 
         <Box sx={{ padding: "15px 30px" }}>
           <TableContainer component={Paper} elevation={0}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 650 ,}} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: "600" }}>Sl.no.</TableCell>
-                  <TableCell sx={{ fontWeight: "600" }}>HSN</TableCell>
-                  <TableCell sx={{ fontWeight: "600" }}>Items Name</TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>Sl.no.</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>HSN</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>Items Name</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
                     Pack
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
                     Batch
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
                     Expiry Date
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}align="right">
                     Quantity
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}align="right">
                     Free
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "600" }} align="right">
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
                     Rate
                   </TableCell>
                 </TableRow>
@@ -397,18 +394,18 @@ const StockList = () => {
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{index+1}</TableCell>
-                    <TableCell sx={{ marginLeft: "-10px" }} align="left">
+                    <TableCell sx={{fontSize: { xl: "20px" }, }}>{index+1}</TableCell>
+                    <TableCell sx={{ fontSize: { xl: "20px" },marginLeft: "-10px" }} align="left">
                       {row.hsn}
                     </TableCell>
-                    <TableCell>{row.name}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }}>{row.name}</TableCell>
 
-                    <TableCell align="right">{row.pack}</TableCell>
-                    <TableCell align="right">{row.batch}</TableCell>
-                    <TableCell align="right">{row.expiry}</TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
-                    <TableCell align="right">{row.free}</TableCell>
-                    <TableCell align="right">{row.rate}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.pack}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.batch}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.expiry}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.quantity}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.free}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.rate}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

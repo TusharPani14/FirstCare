@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
@@ -9,6 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
+import { CustYellowButton } from "../../Utils/Theme";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +34,7 @@ const SignIn = () => {
               sm: "0px 40px",
               md: "0px 50px",
               lg: "0px 110px",
-              xl: "15px 100px",
+              xl: "55px 100px",
             },
           }}
         >
@@ -50,20 +51,16 @@ const SignIn = () => {
             src={Logo}
           />
         <Link to="/userLogin">
-        <Button
+        <CustYellowButton
             variant="contained"
             color="primary"
             sx={{
-              fontWeight: "600",
-              borderRadius: "40px",
-              letterSpacing: "-0.008em",
-              fontSize: { xs: "12px", sm: "13px", xl: "24px" },
-              padding: { xs: "5px 15px", sm: "7px 24px", xl: "12px 35px" },
-              textTransform: "capitalize",
+              fontSize: { xs: "12px", sm: "13px", xl: "18px" },
+              padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
             }}
           >
             User Login
-          </Button></Link>  
+          </CustYellowButton></Link>  
         </Stack>
 
         <Stack
@@ -120,7 +117,7 @@ const SignIn = () => {
               Hey Enter Your Details to get Sign In to your account
             </Typography>
             <TextField
-              id="outlined-basic"
+              id="admin-email"
               label="Enter Email/Phone Number"
               variant="outlined"
               inputProps={{ style: { color: "white" } }}
@@ -147,7 +144,7 @@ const SignIn = () => {
               }}
             />
             <TextField
-              id="outlined-basic"
+              id="admin-password"
               fullWidth
               label="Enter Password"
               variant="outlined"
@@ -190,22 +187,17 @@ const SignIn = () => {
                 },
               }}
             />
-            <Button
+            <CustYellowButton
               fullWidth
               variant="contained"
               color="primary"
               sx={{
-                width: { xs: "90%", lg: "100%" },
-                fontWeight: "600",
-                color: "#fff",
-                letterSpacing: "-0.008em",
-                fontSize: { xs: "12px", sm: "15px", xl: "24px" },
-                padding: { xs: "13px 15px", sm: "10px 24px", xl: "12px 35px" },
-                textTransform: "capitalize",
+                fontSize: { xs: "12px", sm: "13px", xl: "22px" },
+                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 35px" },
               }}
             >
               Sign In
-            </Button>
+            </CustYellowButton>
           </Stack>
 
           <Box
