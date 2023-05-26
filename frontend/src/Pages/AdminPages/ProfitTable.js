@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { CustYellowButton } from "../../Utils/Theme";
 
-const ProfitTable = ({ DataArray }) => {
+const ProfitTable = ({ DataArray  }) => {
 
     
   return (

@@ -13,13 +13,26 @@ const ProfitPage = () => {
         return accumulator + object.profit;
       }, 0);
      
-      const [date, setDate] = useState(null);
+      // const [date, setDate] = useState();
+      var dateVal = 0
 const handleDate=(e)=>{
-   var dateVal = e.target.value;
-    console.log(dateVal)
-    setDate(dateVal)
-    console.log(date) 
-}
+   dateVal = (e.target.value);
+   console.log(dateVal.toString())
+  }
+  const ddate= new Date(ProfitData[1].date)
+console.log(ddate.toISOString())
+  const sortByDate= ()=>{
+      const DateSortedArray =[];
+      ProfitData.forEach(element => {
+        if((element.date) === dateVal){
+          DateSortedArray.push(element);
+        }
+        return DateSortedArray;
+      }); 
+    console.log(DateSortedArray)
+  }
+  sortByDate();
+
   return (
     <>
       <Box>
