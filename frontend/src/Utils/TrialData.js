@@ -55,3 +55,26 @@ export const Data = [
     "rate": 154,
   },
 ];
+export const ProfitData = [
+  {
+    "serial": 1,
+    "invoice_number": "5075 - 3834 - 424",
+    "bill_amount": 200,
+    "profit": 40,
+    "date":"12.03.2023" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"12.03.2027" ,
+  },
+  {
+    "serial": 3,
+    "invoice_number": "7075 - 3834 - 424",
+    "bill_amount": 1200,
+    "profit": 240,
+    "date":"12.05.2023" ,
+  },
+]

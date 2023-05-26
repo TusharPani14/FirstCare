@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 const StockTable = ({DataArray}) => {
   return (
     <>
-       <Box sx={{ padding: "15px 30px" }}>
+       <Box sx={{ padding: "15px 20px" }}>
           <TableContainer component={Paper} elevation={0}>
             <Table sx={{ minWidth: 650 ,}} aria-label="simple table">
               <TableHead>
