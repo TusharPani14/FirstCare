@@ -1,20 +1,21 @@
 import React, { useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Data } from "../../Utils/TrialData";
 import { CustYellowButton } from "../../Utils/Theme";
-import StockTable from "./StockTable";
-import AdminHeader from "./AdminHeader";
+import UserHeader from "./UserHeader";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import StockTable from "../AdminPages/StockTable";
 import StockSortAlgo from "../../Utils/StockSortAlgo";
 
-const StockList = () => {
+
+const StockView = () => {
   
   // sorting function start
   const [sortMethod, setSortMethod] = useState("");
   let NewData = Data;
-  StockSortAlgo(sortMethod,Data,NewData);
+ StockSortAlgo(sortMethod,Data,NewData);
   // sorting function end
 
   const [anchorEl2, setAnchorEl2] = React.useState(null);
@@ -30,17 +31,18 @@ const StockList = () => {
   return (
     <>
       <Box>
-        <AdminHeader />
-        
+        <UserHeader />
+
         <Stack
           sx={{
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: { xs: "left", sm: "space-between" },
+            flexDirection: { xs: "row" },
+            justifyContent: { xs: "space-between" },
             alignItems: { xs: "left", sm: "center" },
             marginTop: "10px",
             gap: "10px",
             padding: {
-              xs: "10px",
+              xs: "10px 20px",
+              sm: "10px 40px",
               md: "15px 70px 15px 38px",
               lg: "15px 40px 15px 30px ",
             },
@@ -48,7 +50,7 @@ const StockList = () => {
           }}
         >
           <Typography
-            sx={{ fontSize: { xs: "21px", xl: "29px" }, fontWeight: "700" }}
+            sx={{ fontSize: { xs: "19px", xl: "29px" }, fontWeight: "700" }}
           >
             Stock List
           </Typography>
@@ -60,33 +62,7 @@ const StockList = () => {
               alignItems: { xs: "left", sm: "center" },
             }}
           >
-            <Button
-              variant="outlined"
-              color="secondary"
-              style={{ outline: "none" }}
-              sx={{
-                border: "2px solid #000",
-                padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
-                fontWeight: "600",
-              }}
-            >
-              Update Stock
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              style={{ outline: "none" }}
-              sx={{
-                border: "2px solid #000",
-                padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
-                fontWeight: "600",
-                "&:hover": { margin: " 0 1px", transform: "scale(0.99)" },
-              }}
-            >
-              Delete Stock
-            </Button>
+            
             <CustYellowButton
               variant="contained"
               color="primary"
@@ -158,4 +134,4 @@ const StockList = () => {
   );
 };
 
-export default StockList;
+export default StockView;
