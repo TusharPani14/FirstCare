@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, OutlinedInput, Stack, Typography } from '@mui/material'
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,11 +10,41 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { CustYellowButton } from "../../Utils/Theme";
 
-const ProfitTable = ({ DataArray  }) => {
+const ProfitTable = ({ DataArray ,handleDate }) => {
 
+  // function to find total profit 
+  const totalProfit = DataArray.reduce((accumulator, object) => {
+    return accumulator + object.profit;
+  }, 0);
+ 
     
   return (
     <>
+    <Stack
+          sx={{
+            flexDirection: { xs:"column-reverse",sm: "row" },
+            justifyContent: { xs: "space-between" },
+            alignItems: { sx:"left",sm: "center" },
+            marginTop: "10px",
+            gap: "10px",
+            padding: {
+              xs: "10px 15px",
+              sm: "10px 43px",
+              md: "15px 70px 15px 38px",
+              lg: "15px 40px 15px 30px ",
+            },
+            position: "relative",
+          }}
+        >
+            
+              <OutlinedInput type='date' onChange={handleDate} />
+
+          <Typography
+            sx={{ fontSize: { xs: "16px",lg:"19px", xl: "29px" }, fontWeight: "700" }}
+          >
+            {`Total Profit : Rs. ${totalProfit}`} 
+          </Typography>
+        </Stack>
       <Box sx={{ padding: "15px 20px" }}>
         <TableContainer component={Paper} elevation={0}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
