@@ -29,7 +29,7 @@ const UserHeader = () => {
           sx={{
             height: { xs: "50px", sm: "80px" },
             padding: {
-              xs: "10px 20px",
+              xs: "10px 10px 10px 20px ",
               sm: "0px 40px",
               md: "0px 30px 0 40px",
               lg: "0px 0px 0 30px",

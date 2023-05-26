@@ -37,7 +37,7 @@ const StockView = () => {
           sx={{
             flexDirection: { xs: "row" },
             justifyContent: { xs: "space-between" },
-            alignItems: { xs: "left", sm: "center" },
+            alignItems: { xs: "center" },
             marginTop: "10px",
             gap: "10px",
             padding: {

@@ -55,3 +55,68 @@ export const Data = [
     "rate": 154,
   },
 ];
+export const ProfitData = [
+  {
+    "serial": 1,
+    "invoice_number": "5075 - 3834 - 424",
+    "bill_amount": 200,
+    "profit": 40,
+    "date":"2023.03.25" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.30" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.8" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.3" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "9995 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.30" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.25" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "3035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.20" ,
+  },
+  {
+    "serial": 2,
+    "invoice_number": "0035 - 3834 - 424",
+    "bill_amount": 400,
+    "profit": 50,
+    "date":"2023.05.30" ,
+  },
+  {
+    "serial": 3,
+    "invoice_number": "7075 - 3834 - 424",
+    "bill_amount": 1200,
+    "profit": 240,
+    "date":"2023.07.08" ,
+  },
+]
