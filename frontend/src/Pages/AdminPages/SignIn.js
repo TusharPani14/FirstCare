@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
@@ -10,14 +17,79 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { CustYellowButton } from "../../Utils/Theme";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email_phoneNo, setEmail_phoneNo] = useState();
+  const [password, setPassword] = useState();
+  const [loading, setLoading] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const handleSignin = async () => {
+    setLoading(true);
+    if (!email_phoneNo || !password) {
+      setMessage("Please enter all the fields");
+      setOpenError(true);
+      setLoading(false);
+      return;
+    }
+    if (email_phoneNo !== "smohansatapathy@gmail.com" || password !== "smohan123*") {
+      setMessage("Please enter correct email and password");
+      setOpenError(true);
+      setLoading(false);
+      return;
+    }
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/user/login",
+        {
+          email_phoneNo,
+          password,
+        },
+        config
+      );
+      if (data) {
+        setMessage("Registration Successful");
+        setOpenSuccess(true);
+        setTimeout(() => navigate("/adminStockList"), 1000);
+      }
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setMessage(e.message);
+      setOpenError(true);
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSuccess(false);
+    setOpenError(false);
   };
 
   return (
@@ -50,17 +122,18 @@ const SignIn = () => {
             alt="The house from the offer."
             src={Logo}
           />
-        <Link to="/userLogin">
-        <CustYellowButton
-            variant="contained"
-            color="primary"
-            sx={{
-              fontSize: { xs: "12px", sm: "13px", xl: "18px" },
-              padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
-            }}
-          >
-            User Login
-          </CustYellowButton></Link>  
+          <Link to="/userLogin">
+            <CustYellowButton
+              variant="contained"
+              color="primary"
+              sx={{
+                fontSize: { xs: "12px", sm: "13px", xl: "18px" },
+                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
+              }}
+            >
+              User Login
+            </CustYellowButton>
+          </Link>
         </Stack>
 
         <Stack
@@ -118,9 +191,12 @@ const SignIn = () => {
             </Typography>
             <TextField
               id="admin-email"
-              label="Enter Email/Phone Number"
+              label="Enter Email"
               variant="outlined"
               inputProps={{ style: { color: "white" } }}
+              onChange={(e) => {
+                setEmail_phoneNo(e.target.value);
+              }}
               sx={{
                 width: { xs: "90%", lg: "100%" },
                 color: "white",
@@ -149,6 +225,9 @@ const SignIn = () => {
               label="Enter Password"
               variant="outlined"
               type={showPassword ? "text" : "password"}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               InputProps={{
                 style: { color: "white" },
                 endAdornment: (
@@ -191,14 +270,13 @@ const SignIn = () => {
               fullWidth
               variant="contained"
               color="primary"
+              onClick={handleSignin}
               sx={{
                 fontSize: { xs: "12px", sm: "13px", xl: "22px" },
                 padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 35px" },
               }}
-              >
-              <Link to="/adminStockList">{/* remove after login verifictaion is added  */}
+            >
               Sign In
-              </Link>
             </CustYellowButton>
           </Stack>
 
@@ -214,6 +292,33 @@ const SignIn = () => {
           />
         </Stack>
       </Box>
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };
