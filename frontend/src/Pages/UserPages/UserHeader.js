@@ -55,6 +55,8 @@ const UserHeader = () => {
             alignItems="center"
             sx={{ gap: "40px" }}
           >
+            <Link to="/userStockView">
+
             <Typography
               sx={{
                 fontSize: {xs:"15px",xl:"23px"},
@@ -62,10 +64,11 @@ const UserHeader = () => {
                 textDecoration: "underline",
                 display: { xs: "none", md: "block" },
               }}
-            >
+              >
               Stocks
             </Typography>
-            <Link to="/createBill">
+              </Link>
+            <Link to="/bill">
             <Typography
               sx={{
                 fontSize: {xs:"15px",xl:"23px"},

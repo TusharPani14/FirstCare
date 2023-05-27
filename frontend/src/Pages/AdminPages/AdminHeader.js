@@ -55,6 +55,8 @@ const AdminHeader = () => {
             alignItems="center"
             sx={{ gap: "40px" }}
           >
+            <Link to="/adminStockList">
+
             <Typography
               sx={{
                 fontSize: {xs:"15px",xl:"23px"},
@@ -62,18 +64,21 @@ const AdminHeader = () => {
                 textDecoration: "underline",
                 display: { xs: "none", md: "block" },
               }}
-            >
+              >
               Stocks
             </Typography>
+              </Link>
+            <Link to="/adminProfitPage">
             <Typography
               sx={{
                 fontSize: {xs:"15px",xl:"23px"},
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
-            >
+              >
               Sells & Profits
             </Typography>
+              </Link>
             <SettingsIcon
               sx={{
                 fontSize: { xs: "20px", xl: "28px" },
@@ -81,7 +86,7 @@ const AdminHeader = () => {
                 display: { xs: "none", md: "block" },
               }}
             />
-            <Link to="/adminLogin">
+            <Link to="/">
               <CustYellowButton
                 variant="contained"
                 color="primary"
@@ -128,7 +133,7 @@ const AdminHeader = () => {
                 >
                   Stocks
                 </MenuItem>
-                <Link to="/adminProfits">
+                <Link to="/adminProfitPage">
                   <MenuItem
                     onClick={handleClose}
                     sx={{ textDecoration: "none" }}
@@ -136,7 +141,7 @@ const AdminHeader = () => {
                     Sells & Profits
                   </MenuItem>
                   </Link>
-                  <Link to="/adminLogin">
+                  <Link to="/">
                   <MenuItem
                     onClick={handleClose}
                     sx={{ textDecoration: "none" }}
