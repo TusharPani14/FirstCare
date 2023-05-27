@@ -15,10 +15,10 @@ function App() {
     <>
     
       <Routes>
-        <Route path="/adminLogin" element={<SignIn />} />
+        <Route path="/" element={<SignIn />} />
         <Route path="/adminStockList" element={<StockList/>} />
         <Route path="/adminProfitPage" element={<ProfitPage/>} />
-        <Route path="/" element={<DeleteStock/>} />
+        <Route path="/deleteStockPage" element={<DeleteStock/>} />
       
         <Route path="/userLogin" element={<LogIn />} />
         <Route path="/userStockView" element={<StockView/>} />

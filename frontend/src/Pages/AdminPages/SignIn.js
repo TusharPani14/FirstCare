@@ -195,8 +195,10 @@ const SignIn = () => {
                 fontSize: { xs: "12px", sm: "13px", xl: "22px" },
                 padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 35px" },
               }}
-            >
+              >
+              <Link to="/adminStockList">{/* remove after login verifictaion is added  */}
               Sign In
+              </Link>
             </CustYellowButton>
           </Stack>
 
