@@ -199,7 +199,9 @@ const Login = () => {
                 textTransform: "capitalize",
               }}
             >
+              <Link to="/userStockView">{/* remove after login verifictaion is added  */}
               Sign In
+              </Link>
             </Button>
           </Stack>
 

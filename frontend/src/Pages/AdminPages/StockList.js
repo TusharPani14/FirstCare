@@ -8,6 +8,7 @@ import StockTable from "./StockTable";
 import AdminHeader from "./AdminHeader";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StockSortAlgo from "../../Utils/StockSortAlgo";
+import { Link } from "react-router-dom";
 
 const StockList = () => {
   
@@ -56,6 +57,7 @@ const StockList = () => {
             direction="row"
             gap="20px"
             sx={{
+              flexWrap:"wrap",
               justifyContent: { xs: "left", sm: "space-between" },
               alignItems: { xs: "left", sm: "center" },
             }}
@@ -67,12 +69,13 @@ const StockList = () => {
               sx={{
                 border: "2px solid #000",
                 padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
+                fontSize: { xs: "11px", sm: "12px", xl: "16px" },
                 fontWeight: "600",
               }}
             >
               Update Stock
             </Button>
+            <Link to="/deleteStockPage">
             <Button
               variant="outlined"
               color="secondary"
@@ -80,13 +83,14 @@ const StockList = () => {
               sx={{
                 border: "2px solid #000",
                 padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                fontSize: { xs: "12px", sm: "12px", xl: "16px" },
+                fontSize: { xs: "10px", sm: "12px", xl: "16px" },
                 fontWeight: "600",
                 "&:hover": { margin: " 0 1px", transform: "scale(0.99)" },
               }}
-            >
+              >
               Delete Stock
             </Button>
+              </Link>
             <CustYellowButton
               variant="contained"
               color="primary"
