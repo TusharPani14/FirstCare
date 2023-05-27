@@ -22,4 +22,7 @@ export const Theme = createTheme({
       main: "#000",
     },
   },
+  typography:{
+    fontFamily: "'Poppins', sans-serif"
+  }
 });

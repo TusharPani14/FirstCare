@@ -1,7 +1,7 @@
-import { Stack, TextField, Button, Typography, Box} from "@mui/material";
+import { Stack, TextField, Button, Typography, Box, TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, TableFooter} from "@mui/material";
 import React, { useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import UserHeader from "./UserHeader";
 
 export default function Bill(){
 
@@ -11,6 +11,9 @@ export default function Bill(){
   function handleSubmit(){
       setData([...data,{pname,quantity,rate}])
       setAmount(amount+rate*quantity)
+      setPname("")
+      setQuantity("")
+      setRate("")
   }
 
   const medicine = [
@@ -29,10 +32,11 @@ export default function Bill(){
   const [phnnum,setPhnnum] = useState("");
   const [rate,setRate] = useState("");
   const [amount,setAmount] = useState(0)
-  const [discount,setDiscount] = useState("")
+  const [discount,setDiscount] = useState(0)
   let total = amount-amount*(discount/100);
   return (
     <>
+    
     {showInv ? (<Stack sx={{color:"black",padding:"50px"}} gap="20px" >
         <Stack direction="row" justifyContent="space-between">
         <Stack>
@@ -41,7 +45,7 @@ export default function Bill(){
         <Typography variant="body1" sx={{fontWeight:"700"}}>Phone Number:7008554435</Typography>
         <Typography variant="body1" sx={{fontWeight:"700"}}>GST: D.L.No.: NA-40631R NA-4063RC 17331RX</Typography>
         </Stack>
-        <Button variant="contained" color="primary" sx={{height:"40px",display:(showInv?"block":"none")}}onClick={()=>{
+        <Button variant="contained" color="primary" sx={{height:"40px",display:(showInv?"block":"none"),}}onClick={()=>{
           setShowInv(false)
           window.print();
           }}>
@@ -60,7 +64,9 @@ export default function Bill(){
         </Stack>
         
       </Stack> ):(
-       <Stack gap="25px" sx={{padding:"40px"}}>
+      <Stack>
+        <UserHeader/>
+         <Stack gap="25px" sx={{padding:"40px"}}>
         <Typography variant="h3" >Billing Page</Typography>
        <Stack sx={{flexDirection:{xs:"column",sm:"row"}}} gap="20px">
          <TextField
@@ -97,7 +103,7 @@ export default function Bill(){
              disablePortal
              id="combo-box-demo"
              options={medicine}
-             sx={{ width: 300 }}
+             sx={{ width: 500 }}
              onInputChange={(event, pname) => {
                setPname(pname);
              }}
@@ -125,10 +131,10 @@ export default function Bill(){
            />
            </Stack>
           <Stack sx={{gap:"15px",flexDirection:{sm:"row"}}}>
-          <Button variant="contained" color="primary" onClick={handleSubmit} sx={{maxWidth:"180px"}} >
+          <Button variant="contained" color="primary" onClick={handleSubmit} sx={{maxWidth:"200px",padding:"16px 33px",borderRadius:"42px"}} >
             Add To Cart
           </Button>
-          <Button variant="contained" color="primary" onClick={handleprint} sx={{maxWidth:"180px"}}>
+          <Button variant="contained" color="primary" onClick={handleprint} sx={{maxWidth:"200px",padding:"16px 33px",borderRadius:"42px"}}>
         Preview Invoice
       </Button>
           </Stack>
@@ -144,46 +150,56 @@ export default function Bill(){
          </Stack>
        </Stack>
      </Stack>
+      </Stack>
       ) }
-     <Stack sx={{padding:"50px"}}>
-            <table border="1" width="850px">
-                <thead>
-                    <tr>
-                        <td>Product Name</td>
-                        <td>Quantity</td>
-                        <td>Rate</td>
-                        <td>Price</td>
-                    </tr>
-                </thead>
-                <tbody>
-                   {
-                    data.map((n)=>{
+        <Stack padding="50px">
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        Product Name
+                      </TableCell>
+                      <TableCell>
+                        Quantity 
+                      </TableCell>
+                      <TableCell>
+                      Rate
+                      </TableCell>
+                      <TableCell>
+                       Price
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.map((n)=>{
                       return(
-                      <tr>
-                        <td>{n.pname}</td>
-                        <td>{n.quantity}</td>
-                        <td>{n.rate}</td>
-                        <td>{n.quantity*n.rate}</td>
-                      </tr>
+                        <TableRow key={n.pname}>
+                          <TableCell>{n.pname}</TableCell>
+                          <TableCell>{n.quantity}</TableCell>
+                          <TableCell>{n.rate}</TableCell>
+                          <TableCell>{n.quantity*n.rate}</TableCell>
+
+                        </TableRow>
                       )
-                    })
-                   }
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan="3" align="center">Subtotal</td>
-                    <td>{amount}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan="3" align="center">Total Discount</td>
-                    <td>{(amount*discount)/100}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan="3" align="center">Total</td>
-                    <td>{total}</td>
-                  </tr>
-                </tfoot>
-            </table>
+                    })}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan="3" align="right" sx={{fontWeight:"700"}}>Sub-Total</TableCell>
+                      <TableCell sx={{fontWeight:"700"}}>{amount}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan="3" align="right" sx={{fontWeight:"700"}}>Total Discount</TableCell>
+                      <TableCell sx={{fontWeight:"700"}}>{(amount*discount)/100}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell colSpan="3" align="right" sx={{fontWeight:"700"}}>Total</TableCell>
+                      <TableCell sx={{fontWeight:"700"}}>{total}</TableCell>
+                    </TableRow>
+                  </TableFooter>
+            </Table>
+          </TableContainer>
         </Stack>
     </>
   )
