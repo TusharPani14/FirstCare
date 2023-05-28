@@ -1,6 +1,5 @@
 const StockSortAlgo = (sortMethod,Data,NewData) => {
 
-
     switch (sortMethod) {
         case "name":
           NewData = Data.sort((a, b) => {
@@ -41,7 +40,7 @@ const StockSortAlgo = (sortMethod,Data,NewData) => {
           break;
     // 
         case "hsn":
-          Data.sort((a, b) => {
+          NewData = Data.sort((a, b) => {
             return a.hsn - b.hsn;
           });
     

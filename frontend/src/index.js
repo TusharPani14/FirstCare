@@ -10,14 +10,12 @@ import Footer from "./Pages/UserPages/Footer";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
     <ThemeProvider theme={Theme}>
       <BrowserRouter>
         <App />
         <Footer/>
       </BrowserRouter>
     </ThemeProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -75,6 +75,7 @@ const SignIn = () => {
         setOpenSuccess(true);
         setTimeout(() => navigate("/adminStockList"), 1000);
       }
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
     } catch (e) {
       console.log(e);

@@ -62,6 +62,7 @@ const Login = () => {
         setOpenSuccess(true);
         setTimeout(() => navigate("/userStockView"), 1000);
       }
+      localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
     } catch (e) {
       console.log(e);
