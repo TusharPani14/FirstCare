@@ -2,16 +2,20 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Box, Stack, Typography, TextField,Button} from "@mui/material";
 import { useState } from "react";
 import AdminHeader from "./AdminHeader";
-import Footer from "../UserPages/Footer";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 export default function CreateStock(){
 
     const [pname, setPname] = useState("");
     const [pack,setPack] = useState("")
     const [rate,setRate] = useState("")
-    const [date,setDate] = useState("")
+    const [date,setDate] = useState(null)
     const [saltname,setSaltname] = useState("")
     const [hsn,setHsn] = useState("")
-    const [expiry,setExpiry] = useState("")
+    const [expiry,setExpiry] = useState(null)
+ 
     const [location,setLocation] = useState("")
     const [mfg,setMfg] = useState("")
     const [batch,setBatch] = useState("")
@@ -26,7 +30,7 @@ export default function CreateStock(){
       ];
 
     function Create(){
-        console.log(pname,pack,rate,date,saltname,hsn,location,mfg,batch,quantity,free)
+        console.log(pname,pack,rate,date.$d,saltname,hsn,location,mfg,batch,quantity,free,expiry.$d)
     }
 
     return (
@@ -65,12 +69,13 @@ export default function CreateStock(){
            fullWidth={true}
            onChange={(e)=>setRate(e.target.value)}
          />
-          <TextField
-           label="Date"
-           value={date}
-           fullWidth={true}
-           onChange={(e)=>setDate(e.target.value)}
-         />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+        label="Entry Date"
+          value={date}
+          onChange={(neWValue) => setDate(neWValue)}
+        />
+    </LocalizationProvider>
        </Stack>
         </Stack>
         <Stack gap="20px">
@@ -88,17 +93,18 @@ export default function CreateStock(){
          />
             </Stack>
         
-          <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},gap:"20px"}}>
-          <TextField
-           label="EXP. DATE"
-           value={expiry}
-           fullWidth={true}
-           onChange={(e)=>setExpiry(e.target.value)}
-         />
+          <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},alignItems:"flex-end",justifyContent:"space-between"}}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+        label="Expiry Date"
+          value={expiry}
+          onChange={(neWValue) => setExpiry(neWValue)}
+        />
+    </LocalizationProvider>
          <TextField
            label="Location"
+           sx={{width:400}}
            value={location}
-           fullWidth={true}
            onChange={(e)=>setLocation(e.target.value)}
          />
           </Stack>

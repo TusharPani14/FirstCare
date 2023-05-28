@@ -8,6 +8,9 @@ import AdminHeader from "./AdminHeader";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StockTable from "../AdminPages/StockTable";
 import StockSortAlgo from "../../Utils/StockSortAlgo";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -39,10 +42,10 @@ const UpdateStock = () => {
   const [pname, setPname] = useState("");
   const [pack,setPack] = useState("")
   const [rate,setRate] = useState("")
-  const [date,setDate] = useState("")
+  const [date,setDate] = useState(null)
   const [saltname,setSaltname] = useState("")
   const [hsn,setHsn] = useState("")
-  const [expiry,setExpiry] = useState("")
+  const [expiry,setExpiry] = useState(null)
   const [location,setLocation] = useState("")
   const [mfg,setMfg] = useState("")
   const [batch,setBatch] = useState("")
@@ -50,7 +53,7 @@ const UpdateStock = () => {
   const [free,setFree] = useState("")
 
 function Update(){
-    console.log(pname,pack,rate,date,saltname,hsn,location,mfg,batch,quantity,free)
+    console.log(pname,pack,rate,date.$d,saltname,hsn,location,mfg,batch,quantity,free)
 }
 
   return (
@@ -85,11 +88,13 @@ function Update(){
            value={rate}
            onChange={(e)=>setRate(e.target.value)}
          />
-          <TextField
-           label="Date"
-           value={date}
-           onChange={(e)=>setDate(e.target.value)}
-         />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+        label="Entry Date"
+          value={date}
+          onChange={(neWValue) => setDate(neWValue)}
+        />
+    </LocalizationProvider>
         </Stack>
         <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},gap:"20px"}}>
         <TextField
@@ -103,11 +108,13 @@ function Update(){
            value={hsn}
            onChange={(e)=>setHsn(e.target.value)}
          />
-          <TextField
-           label="EXP. DATE"
-           value={expiry}
-           onChange={(e)=>setExpiry(e.target.value)}
-         />
+           <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+        label="Expiry Date"
+          value={expiry}
+          onChange={(neWValue) => setExpiry(neWValue)}
+        />
+    </LocalizationProvider>
          <TextField
            label="Location"
            value={location}

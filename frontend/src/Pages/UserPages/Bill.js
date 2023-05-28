@@ -2,7 +2,9 @@ import { Stack, TextField, Button, Typography, Box, TableContainer, Table, Paper
 import React, { useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import UserHeader from "./UserHeader";
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 export default function Bill(){
 
   function handleprint(){
@@ -27,7 +29,7 @@ export default function Bill(){
   const [showInv,setShowInv] = useState(false);
   const [username,setUsername] = useState("");
   const [invnum,setInvnum] = useState("");
-  const [invdate,setInvdate] = useState("");
+  const [invdate,setInvdate] = useState(null);
   const [quantity,setQuantity] = useState("");
   const [phnnum,setPhnnum] = useState("");
   const [rate,setRate] = useState("");
@@ -59,7 +61,7 @@ export default function Bill(){
           </Stack>
           <Stack>
             <Typography variant="body1" sx={{fontWeight:"700"}}>Invoice Number:{invnum}</Typography>
-            <Typography variant="body1" sx={{fontWeight:"700"}}>Invoice Date:{invdate}</Typography>
+            <Typography variant="body1" sx={{fontWeight:"700"}}>Invoice Date:{invdate.$D}-{invdate.$M+1}-{invdate.$y}</Typography>
           </Stack>
         </Stack>
         
@@ -81,12 +83,13 @@ export default function Bill(){
            value={username}
            onChange={(e)=>setUsername(e.target.value)}
          />
-         <TextField
-           label="Invoice Date"
-           name="invoice_date"
-           value={invdate}
-           onChange={(e)=>setInvdate(e.target.value)}
-         />
+         <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+        label="Invoice Date"
+          value={invdate}
+          onChange={(neWValue) => setInvdate(neWValue)}
+        />
+    </LocalizationProvider>
          <TextField
            label="Phone Number"
            name="phone_number"
