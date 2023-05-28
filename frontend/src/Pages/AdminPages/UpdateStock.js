@@ -53,7 +53,7 @@ const UpdateStock = () => {
   const [free,setFree] = useState("")
 
 function Update(){
-    console.log(pname,pack,rate,date.$d,saltname,hsn,location,mfg,batch,quantity,free)
+    console.log(pname,pack,rate,date.$d,saltname,hsn,location,mfg,batch,quantity,free,expiry.$d)
 }
 
   return (
