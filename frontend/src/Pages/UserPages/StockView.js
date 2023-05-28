@@ -30,7 +30,7 @@ const StockView = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{minHeight:"100vh"}}>
         <UserHeader />
 
         <Stack

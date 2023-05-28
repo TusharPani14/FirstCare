@@ -7,6 +7,7 @@ import Bill from "./Pages/UserPages/Bill";
 import UpdateStock from "./Pages/AdminPages/UpdateStock";
 import ProfitPage from "./Pages/AdminPages/ProfitPage";
 import DeleteStock from "./Pages/AdminPages/DeleteStock";
+import CreateStock from "./Pages/AdminPages/CreateStock";
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/adminProfitPage" element={<ProfitPage/>} />
         <Route path="/deleteStockPage" element={<DeleteStock/>} />
         <Route path="/update" element={<UpdateStock/>} />
+        <Route path="/create" element={<CreateStock/>} />
         <Route path="/userLogin" element={<LogIn />} />
         <Route path="/userStockView" element={<StockView/>} />
         <Route path="/bill" element={<Bill/>} />

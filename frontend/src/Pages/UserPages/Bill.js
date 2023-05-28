@@ -103,7 +103,7 @@ export default function Bill(){
              disablePortal
              id="combo-box-demo"
              options={medicine}
-             sx={{ width: 500 }}
+             sx={{ width: {lg:500,xs:400} }}
              onInputChange={(event, pname) => {
                setPname(pname);
              }}
