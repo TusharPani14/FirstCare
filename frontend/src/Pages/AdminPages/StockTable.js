@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from "@mui/material";
+import { Box,TablePagination } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +10,18 @@ import Paper from "@mui/material/Paper";
 
 
 const StockTable = ({DataArray}) => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <>
        <Box sx={{ padding: "15px 20px" }}>
@@ -41,7 +53,7 @@ const StockTable = ({DataArray}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {DataArray.map((row,index) => (
+                {DataArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -63,6 +75,15 @@ const StockTable = ({DataArray}) => {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+        rowsPerPageOptions={[10, 20,30]}
+        component="div"
+        count={DataArray.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
         </Box>
     </>
   )

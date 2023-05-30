@@ -202,6 +202,18 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
     setOpenSuccess(false);
     setOpenError(false);
   };
+
+const [page, setPage] = React.useState(0);
+const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
   return (
     <>
       <Box>
@@ -502,6 +514,15 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+        rowsPerPageOptions={[10, 20,30]}
+        component="div"
+        count={info.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
         </Box>
       </Box>
       <div>
