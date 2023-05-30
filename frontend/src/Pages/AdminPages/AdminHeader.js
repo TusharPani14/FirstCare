@@ -9,7 +9,7 @@ import Logo from "../../Assets/logo.png";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const AdminHeader = () => {
+const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,6 +60,11 @@ const AdminHeader = () => {
                 cursor: "pointer",
                 textDecoration: "underline",
                 display: { xs: "none", md: "block" },
+              }}
+              onClick={() => {
+                if (updateTrigger) {
+                  setUpdateTrigger(false);
+                }
               }}
             >
               Stocks

@@ -4,6 +4,8 @@ const connectDB = require("./config/db");
 const colors = require("colors");
 const path = require("path");
 const loginRoute = require("./routes/loginRoute");
+const stockRoute = require("./routes/stockRoute")
+const billRoute = require("./routes/billRoute")
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 var cors = require('cors')
 
@@ -33,6 +35,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", loginRoute);
+app.use("/stock", stockRoute);
+app.use("/bill", billRoute);
 
 app.use(notFound);
 app.use(errorHandler);
