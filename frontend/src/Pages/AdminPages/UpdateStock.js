@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { Box, Stack, Typography, TextField,Button} from "@mui/material";
+import { Box, Stack, Typography, TextField,Button, IconButton} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Data } from "../../Utils/TrialData";
 import { CustYellowButton } from "../../Utils/Theme";
 import AdminHeader from "./AdminHeader";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import StockTable from "../AdminPages/StockTable";
+import DeleteIcon from '@mui/icons-material/Delete';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 import StockSortAlgo from "../../Utils/StockSortAlgo";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import Autocomplete from "@mui/material/Autocomplete";
-
-
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Modal from '@mui/material/Modal';
+import { Data as info} from "../../Utils/TrialData";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const UpdateStock = () => {
   
   // sorting function start
@@ -32,30 +40,50 @@ const UpdateStock = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-  const medicine = [
-    { label: "parcetamol", year: 1994 },
-    { label: "dolo", year: 1972 },
-    { label: "azithromycine", year: 1974 },
-  ];
+
 
 
   const [pname, setPname] = useState("");
   const [pack,setPack] = useState("")
   const [rate,setRate] = useState("")
-  const [date,setDate] = useState(null)
-  const [saltname,setSaltname] = useState("")
   const [hsn,setHsn] = useState("")
   const [expiry,setExpiry] = useState(null)
   const [location,setLocation] = useState("")
-  const [mfg,setMfg] = useState("")
   const [batch,setBatch] = useState("")
   const [quantity,setQuantity] = useState("")
   const [free,setFree] = useState("")
 
 function Update(){
-    console.log(pname,pack,rate,date.$d,saltname,hsn,location,mfg,batch,quantity,free,expiry.$d)
+    console.log(pname,pack,rate,hsn,location,batch,quantity,free,expiry.$d)
 }
 
+function upgrade(row){
+  setPname(row.name)
+  setPack(row.pack)
+  setBatch(row.batch)
+  setQuantity(row.quantity)
+  setFree(row.free)
+  setRate(row.rate)
+  setHsn(row.hsn)
+}
+
+const [open, setOpen] = React.useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
+const showToastMessage = () => {
+  toast.success('Deleted Sucessfully !', {
+      position: toast.POSITION.TOP_RIGHT
+  });
+};
+function remove(row){
+  handleOpen()
+
+
+}
+function dataDelete(){
+  showToastMessage()
+ setOpen(false)
+}
   return (
     <>
       <Box>
@@ -66,18 +94,13 @@ function Update(){
        
        <Stack gap="25px">
         <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},gap:"20px"}}>
-        <Autocomplete
-             disablePortal
-             id="combo-box-demo"
-             options={medicine}
-             sx={{ width: 500 }}
-             onInputChange={(event, pname) => {
-               setPname(pname);
-             }}
-             renderInput={(params) => (
-               <TextField {...params} label="Product Name" />
-             )}
-           />
+     
+        <TextField
+           label="Product Name"
+           value={pname}
+           onChange={(e)=>setPname(e.target.value)}
+           sx={{width:500}}
+         />
             <TextField
            label="Pack"
            value={pack}
@@ -88,21 +111,8 @@ function Update(){
            value={rate}
            onChange={(e)=>setRate(e.target.value)}
          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-        label="Entry Date"
-          value={date}
-          onChange={(neWValue) => setDate(neWValue)}
-        />
-    </LocalizationProvider>
         </Stack>
         <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},gap:"20px"}}>
-        <TextField
-           label="SaltName"
-           value={saltname}
-           sx={{width:500}}
-           onChange={(e)=>setSaltname(e.target.value)}
-         />
          <TextField
            label="HSN CODE"
            value={hsn}
@@ -115,38 +125,38 @@ function Update(){
           onChange={(neWValue) => setExpiry(neWValue)}
         />
     </LocalizationProvider>
-         <TextField
+    <TextField
            label="Location"
            value={location}
            onChange={(e)=>setLocation(e.target.value)}
+           sx={{width:450}}
          />
         </Stack>
         <Stack sx={{flexDirection:{xs:"coloumn",sm:"row"},gap:"25px"}}>
-        <TextField
-           label="MFG"
-           value={mfg}
-           onChange={(e)=>setMfg(e.target.value)}
-         />
+       
          <TextField
            label="Batch Number"
            value={batch}
            onChange={(e)=>setBatch(e.target.value)}
+           sx={{width:400}}
          />
          <TextField
            label="Quantity"
            value={quantity}
            onChange={(e)=>setQuantity(e.target.value)}
+           sx={{width:200}}
          />
          <TextField
            label="Free"
            value={free}
            onChange={(e)=>setFree(e.target.value)}
-         />
-        
+           sx={{width:200}}
+         />    
          <Button variant="contained" color="primary" sx={{maxWidth:"200px",padding:"16px 33px",borderRadius:"42px"}} onClick={Update} >
             Update
           </Button>
         </Stack>
+        
        </Stack>
 
      </Stack>
@@ -246,8 +256,94 @@ function Update(){
         </Stack>
 
         {/*Table */}
-        <StockTable DataArray={NewData} />
+        <Box sx={{ padding: "15px 20px" }}>
+          <TableContainer component={Paper} elevation={0}>
+            <Table sx={{ minWidth: 650 ,}} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>Sl.no.</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>HSN</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}>Items Name</TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
+                    Pack
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
+                    Batch
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
+                    Expiry Date
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}align="right">
+                    Quantity
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }}align="right">
+                    Free
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
+                    Rate
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {info.map((row,index) => (
+                  <TableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell sx={{fontSize: { xl: "20px" }, }}>{index+1}</TableCell>
+                    <TableCell sx={{ fontSize: { xl: "20px" },marginLeft: "-10px" }} align="left">
+                      {row.hsn}
+                    </TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }}>{row.name}</TableCell>
+
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.pack}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.batch}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.expiry}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.quantity}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.free}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.rate}</TableCell>
+                    <TableCell align="right"><IconButton><DeleteIcon onClick={()=>remove(row)}/></IconButton></TableCell>
+                    <TableCell align="right"><IconButton><UpgradeIcon onClick={()=>upgrade(row)}/></IconButton></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Box>
+      <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+ position: 'absolute',
+ top: '50%',
+ left: '50%',
+ transform: 'translate(-50%, -50%)',
+ width: 400,
+ bgcolor: 'background.paper',
+ border: '2px solid #000',
+ boxShadow: 24,
+ p: 4,
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" mb="15px">
+            Are you sure want to Delete 
+          </Typography>
+         <Stack direction="row" gap="10px">
+          <Button variant="contained" color="primary" onClick={()=>setOpen(false)}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="primary" onClick={()=>dataDelete()}>
+            Confirm
+          </Button>
+         </Stack>
+        </Box>
+      </Modal>
+      <ToastContainer />
+    </div>
     </>
   );
 };

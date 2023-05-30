@@ -19,9 +19,9 @@ export default function Bill(){
   }
 
   const medicine = [
-    { label: "parcetamol", year: 1994 },
-    { label: "dolo", year: 1972 },
-    { label: "azithromycine", year: 1974 },
+    { pname: "parcetamol"},
+    { pname: "dolo"},
+    { pname: "azithromycine"},
   ];
   
   const [data,setData] = useState([])
