@@ -10,6 +10,7 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
+  TablePagination,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
