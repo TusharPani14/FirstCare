@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Stack, Typography, TextField,Button, IconButton} from "@mui/material";
+import { Box, Stack, Typography, TextField,Button, IconButton,TablePagination} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Data } from "../../Utils/TrialData";
@@ -84,6 +84,18 @@ function dataDelete(){
   showToastMessage()
  setOpen(false)
 }
+
+const [page, setPage] = React.useState(0);
+const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
   return (
     <>
       <Box>
@@ -285,7 +297,7 @@ function dataDelete(){
                 </TableRow>
               </TableHead>
               <TableBody>
-                {info.map((row,index) => (
+                {info.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -309,6 +321,15 @@ function dataDelete(){
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+        rowsPerPageOptions={[10, 20,30]}
+        component="div"
+        count={info.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
         </Box>
       </Box>
       <div>
