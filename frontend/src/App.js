@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/adminStockList" element={<StockList/>} />
         <Route path="/adminProfitPage" element={<ProfitPage/>} />
-        <Route path="/deleteStockPage" element={<DeleteStock/>} />
+        {/* <Route path="/deleteStockPage" element={<DeleteStock/>} /> */}
         <Route path="/update" element={<UpdateStock/>} />
         <Route path="/create" element={<CreateStock/>} />
         <Route path="/userLogin" element={<LogIn />} />

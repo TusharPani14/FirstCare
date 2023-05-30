@@ -129,17 +129,11 @@ export default function CreateStock() {
                   gap: "20px",
                 }}
               >
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={medicine}
-                  sx={{ width: { lg: 500, xs: 450 } }}
-                  onInputChange={(event, pname) => {
-                    setPname(pname);
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Product Name" />
-                  )}
+               <TextField
+                  label="Product Name"
+                  value={pname}
+                  onChange={(e) => setPname(e.target.value)}
+                  sx={{width:500}}
                 />
                 <TextField
                   label="Pack"
