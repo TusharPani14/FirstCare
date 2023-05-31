@@ -5,6 +5,7 @@ const stocksSchema = mongoose.Schema(
     productName: { type: String, required: true },
     pack: { type: String, required: true },
     rate: { type: Number, required: true },
+    purchaseRate: { type: Number, required: true ,default:0},
     date: { type: String, required: true },
     saltName: { type: String, required: true },
     hsnCode: { type: Number, required: true },

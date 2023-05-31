@@ -75,6 +75,7 @@ const StockList = () => {
           quantity: stockItem.quantity,
           free: stockItem.free,
           rate: stockItem.rate,
+          purchaseRate: stockItem.purchaseRate
         };
       }
       setLoading(false);

@@ -7,6 +7,7 @@ const createStocks = asyncHandler(async (req, res) => {
       productName,
       pack,
       rate,
+      purchaseRate,
       date,
       saltName,
       hsnCode,
@@ -21,6 +22,7 @@ const createStocks = asyncHandler(async (req, res) => {
       !productName ||
       !pack ||
       !rate ||
+      !purchaseRate ||
       !date ||
       !saltName ||
       !hsnCode ||
@@ -37,6 +39,7 @@ const createStocks = asyncHandler(async (req, res) => {
         productName,
         pack,
         rate,
+        purchaseRate,
         date,
         saltName,
         hsnCode,
@@ -76,6 +79,23 @@ const getStocks = asyncHandler(async (req, res) => {
   }
 });
 
+const getStockCP = asyncHandler(async (req, res) => {
+  const {productName}=req.body
+  try {
+    const stock = await Stocks.findOne({productName});
+    if (stock) {
+      res.status(201).json({
+        message: "StockCP fetched successfully",
+        stockCP: stock.purchaseRate,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400);
+    throw new Error("Server error: Stock fetching unsuccessful");
+  }
+});
+
 const updateStocks = asyncHandler(async (req, res) => {
   try {
     const {
@@ -83,6 +103,7 @@ const updateStocks = asyncHandler(async (req, res) => {
       productName,
       pack,
       rate,
+      purchaseRate,
       date,
       saltName,
       hsnCode,
@@ -96,6 +117,7 @@ const updateStocks = asyncHandler(async (req, res) => {
     if (
       !pack &&
       !rate &&
+      !purchaseRate &&
       !date &&
       !saltName &&
       !hsnCode &&
@@ -115,6 +137,7 @@ const updateStocks = asyncHandler(async (req, res) => {
           productName,
           pack,
           rate,
+          purchaseRate,
           date,
           saltName,
           hsnCode,
@@ -156,4 +179,4 @@ const deleteStocks = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createStocks, getStocks, updateStocks, deleteStocks };
+module.exports = { createStocks, getStocks, updateStocks, deleteStocks ,getStockCP};

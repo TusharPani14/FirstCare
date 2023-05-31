@@ -31,7 +31,7 @@ export default function Bill() {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
-    return [day, mnth, date.getFullYear() % 100].join(".");
+    return [date.getFullYear(), mnth, day].join(".");
   }
   useEffect(() => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -48,18 +48,19 @@ export default function Bill() {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const billData  = await axios.post(
+      const billData = await axios.post(
         "/bill/create",
         {
-          invoiceNo:invnum,
-          name:username,
-          invoiceDate:newInvoiceDate,
-          phoneNo:phnnum,
-          products:data,
+          invoiceNo: invnum,
+          name: username,
+          invoiceDate: newInvoiceDate,
+          phoneNo: phnnum,
+          products: data,
+          total
         },
         config
       );
-      console.log(billData.data.message);
+
       if (billData) {
         setMessage(billData.data.message);
         setOpenSuccess(true);
@@ -73,7 +74,7 @@ export default function Bill() {
     }
   }
   function handleSubmit() {
-    setData([...data, { pname, quantity, rate }]);
+    setData([...data, { pname, quantity, rate, amount:rate * quantity }]);
     setAmount(amount + rate * quantity);
     setPname("");
     setQuantity("");
@@ -210,17 +211,11 @@ export default function Bill() {
                   sx={{ flexDirection: { xs: "column", sm: "row" } }}
                   gap="20px"
                 >
-                  <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={medicine}
-                    sx={{ width: { lg: 500, xs: 400 } }}
-                    onInputChange={(event, pname) => {
-                      setPname(pname);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Product Name" />
-                    )}
+                  <TextField
+                    label="Product Name"
+                    name="pname"
+                    value={pname}
+                    onChange={(e) => setPname(e.target.value)}
                   />
                   <TextField
                     label="Rate"
