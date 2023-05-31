@@ -58,6 +58,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   const [pname, setPname] = useState("");
   const [pack, setPack] = useState("");
   const [rate, setRate] = useState("");
+  const [purchaseRate, setPurchaseRate] = useState("");
   const [date, setDate] = useState("");
   const [saltName, setSaltName] = useState("");
   const [mfg, setMfg] = useState("");
@@ -92,6 +93,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
       pname,
       pack,
       rate,
+      purchaseRate,
       hsn,
       location,
       batch,
@@ -114,6 +116,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
           productName: pname,
           pack,
           rate,
+          purchaseRate,
           date,
           saltName,
           hsnCode: hsn,
@@ -148,6 +151,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
     setQuantity(row.quantity);
     setFree(row.free);
     setRate(row.rate);
+    setPurchaseRate(row.purchaseRate);
     setHsn(row.hsn);
     setDate(row.date);
     setLocation(row.location);
@@ -252,6 +256,11 @@ const handleChangeRowsPerPage = (event) => {
             <Stack
               sx={{ flexDirection: { xs: "coloumn", sm: "row" }, gap: "20px" }}
             >
+              <TextField
+                label="Purchase Price"
+                value={purchaseRate}
+                onChange={(e) => setPurchaseRate(e.target.value)}
+              />
               <TextField
                 label="HSN CODE"
                 value={hsn}

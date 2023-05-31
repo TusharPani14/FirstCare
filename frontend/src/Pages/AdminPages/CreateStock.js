@@ -25,6 +25,7 @@ export default function CreateStock() {
   const [pname, setPname] = useState("");
   const [pack, setPack] = useState("");
   const [rate, setRate] = useState("");
+  const [purchaseRate, setPurchaseRate] = useState("");
   const [date, setDate] = useState(null);
   const [saltname, setSaltname] = useState("");
   const [hsn, setHsn] = useState("");
@@ -75,6 +76,7 @@ export default function CreateStock() {
           productName: pname,
           pack,
           rate,
+          purchaseRate,
           date: newDate,
           saltName: saltname,
           hsnCode: hsn,
@@ -147,14 +149,20 @@ export default function CreateStock() {
                 }}
               >
                 <TextField
-                  label="Rate"
+                  label="Purchase Price"
+                  value={purchaseRate}
+                  fullWidth={true}
+                  onChange={(e) => setPurchaseRate(e.target.value)}
+                />
+                <TextField
+                  label="Selling Price"
                   value={rate}
                   fullWidth={true}
                   onChange={(e) => setRate(e.target.value)}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    label="Entry Date"
+                    label="Entry Dt"
                     value={date}
                     onChange={(neWValue) => setDate(neWValue)}
                   />

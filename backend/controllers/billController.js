@@ -3,8 +3,15 @@ const Bills = require("../models/billModel");
 
 const createBills = asyncHandler(async (req, res) => {
   try {
-    const { invoiceNo, name, invoiceDate, phoneNo, products } = req.body;
-    if (!invoiceNo || !name || !invoiceDate || !phoneNo || !products[0]) {
+    const { invoiceNo, name, invoiceDate, phoneNo, products, total } = req.body;
+    if (
+      !invoiceNo ||
+      !name ||
+      !invoiceDate ||
+      !phoneNo ||
+      !products[0] ||
+      !total
+    ) {
       res.status(400);
       throw new Error("Please Enter all the Feilds");
     }
@@ -22,6 +29,7 @@ const createBills = asyncHandler(async (req, res) => {
       invoiceDate,
       phoneNo,
       products,
+      total,
     });
     console.log(bill);
     if (bill) {
@@ -36,4 +44,20 @@ const createBills = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createBills };
+const getBills = asyncHandler(async (req, res) => {
+  try {
+    const bill = await Bills.find({});
+    if (bill) {
+      res.status(201).json({
+        message: "Bill fetched successfully",
+        billList: bill,
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400);
+    throw new Error("Server error: Bill fetching unsuccessful");
+  }
+});
+
+module.exports = { createBills, getBills };

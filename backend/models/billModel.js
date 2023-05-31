@@ -7,6 +7,7 @@ const billSchema = mongoose.Schema(
     invoiceDate: { type: String, required: true },
     phoneNo: { type: Number, required: true },
     products: [{}],
+    total: { type: Number, required: true ,default:0},
   },
   {
     timestamps: true,
