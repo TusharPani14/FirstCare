@@ -18,7 +18,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Autocomplete from "@mui/material/Autocomplete";
 import UserHeader from "./UserHeader";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -90,12 +89,7 @@ export default function Bill() {
     setOpenError(false);
   };
 
-  const medicine = [
-    { label: "parcetamol" },
-    { label: "dolo" },
-    { label: "azithromycine" },
-  ];
-
+ 
   const [data, setData] = useState([]);
   const [pname, setPname] = useState("");
   const [showInv, setShowInv] = useState(false);

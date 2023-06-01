@@ -59,7 +59,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   const [pack, setPack] = useState("");
   const [rate, setRate] = useState("");
   const [purchaseRate, setPurchaseRate] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
   const [saltName, setSaltName] = useState("");
   const [mfg, setMfg] = useState("");
   const [hsn, setHsn] = useState("");
@@ -86,9 +86,12 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   }
 
   async function Update() {
+    if(expiry===null || date===null){
+      showToastMessage()
+      return
+    }
     setLoading(true);
     const expiryDate = convert(expiry.$d);
-    const newMfg = convert(expiry.$d);
     console.log(
       pname,
       pack,
@@ -122,7 +125,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
           hsnCode: hsn,
           expDate: expiryDate,
           location,
-          mfg: newMfg,
+          mfg,
           batch,
           quantity,
           free,
@@ -163,7 +166,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const showToastMessage = () => {
-    toast.success("Deleted Sucessfully !", {
+    toast.warning("Don't leave the Date fields Empty !", {
       position: toast.POSITION.TOP_RIGHT,
     });
   };
@@ -252,6 +255,13 @@ const handleChangeRowsPerPage = (event) => {
                 value={rate}
                 onChange={(e) => setRate(e.target.value)}
               />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Entry Date"
+                    value={date}
+                    onChange={(neWValue) => setDate(neWValue)}
+                  />
+                </LocalizationProvider>
             </Stack>
             <Stack
               sx={{ flexDirection: { xs: "coloumn", sm: "row" }, gap: "20px" }}
@@ -301,6 +311,12 @@ const handleChangeRowsPerPage = (event) => {
                 onChange={(e) => setFree(e.target.value)}
                 sx={{ width: 200 }}
               />
+               <TextField
+                  label="MFG"
+                  value={mfg}
+                
+                  onChange={(e) => setMfg(e.target.value)}
+                />
               <Button
                 variant="contained"
                 color="primary"
@@ -473,7 +489,7 @@ const handleChangeRowsPerPage = (event) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {stockList.map((row, index) => (
+                {info.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

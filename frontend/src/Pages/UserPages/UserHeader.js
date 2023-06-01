@@ -58,7 +58,6 @@ const UserHeader = () => {
               sx={{
                 fontSize: { xs: "15px", xl: "23px" },
                 cursor: "pointer",
-                textDecoration: "underline",
                 display: { xs: "none", md: "block" },
               }}
             >

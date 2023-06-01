@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, OutlinedInput, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Box, OutlinedInput, Stack, Typography,Button,TableFooter,TablePagination } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { CustYellowButton } from "../../Utils/Theme";
+import Modal from "@mui/material/Modal";
 
 const ProfitTable = ({ DataArray, handleDate }) => {
   // function to find total profit
@@ -16,6 +17,28 @@ const ProfitTable = ({ DataArray, handleDate }) => {
     return accumulator + object.profit;
   }, 0);
 
+const [open,setOpen] = useState(false)
+const userdata = {username:"hello",phnnum:"15626",invnum:"8955",invdate:"7885",total:"2035",discount:"2565"}
+const billdata = [{pname:"pracetamol",quantity:"10",rate:"100"},{pname:"pracetamol",quantity:"10",rate:"100"},{pname:"pracetamol",quantity:"10",rate:"100"}]
+
+
+function Print(){
+  window.print()
+  setOpen(false)
+}
+
+
+const [page, setPage] = React.useState(0);
+const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
   return (
     <>
       <Stack
@@ -108,7 +131,7 @@ const ProfitTable = ({ DataArray, handleDate }) => {
                     align="right"
                   >
                     {row.date}
-                    <Link to={`/item/:${index}`}>
+                
                       <CustYellowButton
                         variant="contained"
                         color="primary"
@@ -121,17 +144,128 @@ const ProfitTable = ({ DataArray, handleDate }) => {
                             xl: "9px 30px",
                           },
                         }}
+                        onClick={()=>setOpen(true)}
                       >
                         view
                       </CustYellowButton>
-                    </Link>
+                 
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+        rowsPerPageOptions={[10, 20,30]}
+        component="div"
+        count={DataArray.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
       </Box>
+      <Modal
+          open={open}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          
+        >
+         <Stack sx={{ color: "black", padding: "50px",bgcolor:"white" ,height:"100vh"}} gap="20px">
+          <Stack direction="row" justifyContent="space-between">
+            <Stack>
+              <Typography variant="h4" sx={{ fontWeight: "700" }}>
+                First Care Medical Store
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                SORADA,NUAGAON,NAYAGARH
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                Phone Number:7008554435
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                GST: D.L.No.: NA-40631R NA-4063RC 17331RX
+              </Typography>
+            </Stack>
+           <Stack direction="row" gap="15px">
+           <Button
+              variant="outlined"
+              sx={{ height: "40px",}}
+              onClick={()=>Print()}
+            >
+              Print
+            </Button>
+            <Button
+            variant="outlined"
+              sx={{ height: "40px"}}
+              onClick={()=>setOpen(false)}
+            >
+              Cancel
+            </Button>
+           </Stack>
+          </Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Stack>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                Name:{userdata.username}
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                Phone Number:{userdata.phnnum}
+              </Typography>
+            </Stack>
+            <Stack>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                Invoice Number:{userdata.invnum}
+              </Typography>
+              <Typography variant="body1" sx={{ fontWeight: "700" }}>
+                Invoice Date:{userdata.invdate}
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack padding="50px">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 500 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Product Name</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Rate</TableCell>
+                <TableCell>Price</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {billdata.map((n) => {
+                return (
+                  <TableRow key={n.pname}>
+                    <TableCell>{n.pname}</TableCell>
+                    <TableCell>{n.quantity}</TableCell>
+                    <TableCell>{n.rate}</TableCell>
+                    <TableCell>{n.quantity * n.rate}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan="3" align="right" sx={{ fontWeight: "700" }}>
+                  Total Discount
+                </TableCell>
+                <TableCell sx={{ fontWeight: "700" }}>
+                  {userdata.discount}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="3" align="right" sx={{ fontWeight: "700" }}>
+                  Total
+                </TableCell>
+                <TableCell sx={{ fontWeight: "700" }}>{userdata.total}</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </Stack>
+        </Stack>
+        </Modal>
     </>
   );
 };

@@ -16,6 +16,14 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const showToastMessage = () => {
+  toast.warning("Don't leave the Date fields Empty !", {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+};
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -31,7 +39,7 @@ export default function CreateStock() {
   const [hsn, setHsn] = useState("");
   const [expiry, setExpiry] = useState(null);
   const [location, setLocation] = useState("");
-  const [mfg, setMfg] = useState(null);
+  const [mfg, setMfg] = useState("");
   const [batch, setBatch] = useState("");
   const [quantity, setQuantity] = useState("");
   const [free, setFree] = useState("");
@@ -58,11 +66,13 @@ export default function CreateStock() {
   });
 
   async function Create() {
+    if(expiry===null || date===null){
+      showToastMessage()
+      return
+    }
     setLoading(true);
     const newDate = convert(date.$d);
     const expiryDate = convert(expiry.$d);
-    const newMfg = convert(mfg.$d);
-    console.log(newDate, expiryDate);
     try {
       const config = {
         headers: {
@@ -82,7 +92,7 @@ export default function CreateStock() {
           hsnCode: hsn,
           expDate: expiryDate,
           location,
-          mfg: newMfg,
+          mfg,
           batch,
           quantity,
           free,
@@ -116,7 +126,7 @@ export default function CreateStock() {
     <>
       <Box>
         <AdminHeader />
-
+        <ToastContainer />
         <Stack sx={{ color: "black", padding: "30px", alignItems: "center" }}>
           <Typography variant="h4" fontWeight="700" mb="25px">
             Create StockList
@@ -151,18 +161,18 @@ export default function CreateStock() {
                 <TextField
                   label="Purchase Price"
                   value={purchaseRate}
-                  fullWidth={true}
+
                   onChange={(e) => setPurchaseRate(e.target.value)}
                 />
                 <TextField
                   label="Selling Price"
                   value={rate}
-                  fullWidth={true}
+               
                   onChange={(e) => setRate(e.target.value)}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    label="Entry Dt"
+                    label="Entry Date"
                     value={date}
                     onChange={(neWValue) => setDate(neWValue)}
                   />
@@ -218,13 +228,12 @@ export default function CreateStock() {
                   gap: "25px",
                 }}
               >
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="MFG"
-                    value={mfg}
-                    onChange={(neWValue) => setMfg(neWValue)}
-                  />
-                </LocalizationProvider>
+                 <TextField
+                  label="MFG"
+                  value={mfg}
+                  fullWidth={true}
+                  onChange={(e) => setMfg(e.target.value)}
+                />
                 <TextField
                   label="Batch Number"
                   value={batch}
