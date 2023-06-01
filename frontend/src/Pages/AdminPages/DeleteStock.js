@@ -32,7 +32,6 @@ const DeleteStock = () => {
             </Typography>
             <TextField label="Product Name" autoComplete="off" fullWidth />
             <TextField label="Salt Name" fullWidth />
-
             <Stack direction="row" gap="15px" sx={{width:"100%",flexWrap:{xs:"wrap",sm:"nowrap"}}}>
               <TextField label="Batch Number" fullWidth />
               <TextField label="MRP" type="number" fullWidth />

@@ -1,22 +1,27 @@
-import React, { useState } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Backdrop, Box, CircularProgress, Stack, Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Data } from "../../Utils/TrialData";
 import { CustYellowButton } from "../../Utils/Theme";
 import UserHeader from "./UserHeader";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import StockTable from "../AdminPages/StockTable";
 import StockSortAlgo from "../../Utils/StockSortAlgo";
-
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const StockView = () => {
-  
+  const navigate = useNavigate();
   // sorting function start
   const [sortMethod, setSortMethod] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [stockList, setStockList] = useState(() => []);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
   let NewData = Data;
- StockSortAlgo(sortMethod,Data,NewData);
-  // sorting function end
+  let userInfo;
+  StockSortAlgo(sortMethod, stockList, NewData); // sorting function end
 
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
@@ -28,11 +33,67 @@ const StockView = () => {
     setAnchorEl2(null);
   };
 
+  const fetchStocks = async () => {
+    setLoading(true);
+    setStockList(() => []);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const stocks = await axios.get("/stock/get", config);
+      const stocksList = stocks.data.stockList;
+      if (stocksList) {
+        Array.prototype.forEach.call(stocksList, (d) => {
+          // Add Row
+          setStockList((prevRows) => [...prevRows, myFunction(d)]);
+        });
+      }
+      function myFunction(stockItem) {
+        return {
+          id: stockItem._id,
+          serial: 1,
+          hsn: stockItem.hsnCode,
+          name: stockItem.productName,
+          date: stockItem.date,
+          saltName: stockItem.saltName,
+          location: stockItem.location,
+          mfg: stockItem.mfg,
+          pack: stockItem.pack,
+          batch: stockItem.batch,
+          expiry: stockItem.expDate,
+          quantity: stockItem.quantity,
+          free: stockItem.free,
+          rate: stockItem.rate,
+          purchaseRate:stockItem.purchaseRate
+        };
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (!userInfo) navigate("/");
+  });
+
+  useEffect(() => {
+    fetchStocks();
+  }, []);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+  };
+
   return (
     <>
-      <Box sx={{minHeight:"100vh"}}>
+      <Box sx={{ minHeight: "100vh" }}>
         <UserHeader />
-
         <Stack
           sx={{
             flexDirection: { xs: "row" },
@@ -62,7 +123,6 @@ const StockView = () => {
               alignItems: { xs: "left", sm: "center" },
             }}
           >
-            
             <CustYellowButton
               variant="contained"
               color="primary"
@@ -76,7 +136,10 @@ const StockView = () => {
                 padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
               }}
             >
-              Sort By <KeyboardArrowDownIcon sx={{fontSize: { xs: "16px", sm: "17px", xl: "23px" },}}/>
+              Sort By{" "}
+              <KeyboardArrowDownIcon
+                sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
+              />
             </CustYellowButton>
             <Menu
               sx={{ padding: "100px" }}
@@ -126,9 +189,15 @@ const StockView = () => {
             </Menu>
           </Stack>
         </Stack>
-
         {/*Table */}
-        <StockTable DataArray={NewData} />
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        {stockList[0] != null && <StockTable DataArray={stockList} />}{" "}
       </Box>
     </>
   );
