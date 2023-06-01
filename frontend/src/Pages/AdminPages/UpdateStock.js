@@ -41,7 +41,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   // sorting function start
   const [sortMethod, setSortMethod] = useState("");
   let NewData = Data;
-  StockSortAlgo(sortMethod, Data, NewData);
+  StockSortAlgo(sortMethod, stockList, NewData);
   // sorting function end
 
   const [anchorEl2, setAnchorEl2] = React.useState(null);
@@ -489,7 +489,7 @@ const handleChangeRowsPerPage = (event) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {info.map((row, index) => (
+                {stockList.map((row, index) => (
                   <TableRow
                     key={index}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
