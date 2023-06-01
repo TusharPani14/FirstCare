@@ -81,7 +81,7 @@ const ProfitPage = () => {
           { productName: product.pname },
           config
         );
-        totalCP += Number(cp.data.stockCP);
+        totalCP += Number(cp.data.stockCP) * Number(product.quantity);
       })
     );
 
@@ -92,6 +92,9 @@ const ProfitPage = () => {
       bill_amount: billItem.total,
       profit: Number(billItem.total) - totalCP,
       date: billItem.invoiceDate,
+      name: billItem.name,
+      phoneNo: billItem.phoneNo,
+      products: billItem.products,
     };
   }
 
