@@ -16,6 +16,10 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import UserHeader from "./UserHeader";
@@ -55,7 +59,7 @@ export default function Bill() {
           invoiceDate: newInvoiceDate,
           phoneNo: phnnum,
           products: data,
-          total
+          total,
         },
         config
       );
@@ -72,8 +76,33 @@ export default function Bill() {
       setOpenError(true);
     }
   }
+
+  const fetchStockNames = async () => {
+    setLoading(true);
+    setStockNames(() => []);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const names = await axios.get("/stock/get", config);
+      const stocksName = names.data.stockList;
+      console.log(stocksName);
+      const nameList = stocksName.map((stock) => stock.productName);
+    setStockNames(nameList);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStockNames();
+  }, []);
+
   function handleSubmit() {
-    setData([...data, { pname, quantity, rate, amount:rate * quantity }]);
+    setData([...data, { pname, quantity, rate, amount: rate * quantity }]);
     setAmount(amount + rate * quantity);
     setPname("");
     setQuantity("");
@@ -89,7 +118,6 @@ export default function Bill() {
     setOpenError(false);
   };
 
- 
   const [data, setData] = useState([]);
   const [pname, setPname] = useState("");
   const [showInv, setShowInv] = useState(false);
@@ -105,6 +133,7 @@ export default function Bill() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [message, setMessage] = useState("");
+  const [stockNames, setStockNames] = useState([]);
   const navigate = useNavigate();
   let total = amount - amount * (discount / 100);
   return (
@@ -205,12 +234,22 @@ export default function Bill() {
                   sx={{ flexDirection: { xs: "column", sm: "row" } }}
                   gap="20px"
                 >
-                  <TextField
-                    label="Product Name"
-                    name="pname"
-                    value={pname}
-                    onChange={(e) => setPname(e.target.value)}
-                  />
+                  <FormControl sx={{width: 300 }}>
+                    <InputLabel id="demo-simple-select-label">Meds Name</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={pname}
+                      label="Product Name"
+                      onChange={(e) => setPname(e.target.value)}
+                    >
+                      {stockNames.map((name) => (
+                        <MenuItem key={name} value={name}>
+                          {name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                   <TextField
                     label="Rate"
                     name="rate"
