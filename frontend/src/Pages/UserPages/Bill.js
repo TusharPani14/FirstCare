@@ -197,7 +197,7 @@ export default function Bill() {
                 onChange={(e) => setPhnnum(e.target.value)}
               />
                  <FormControl sx={{width:400}}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Location</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -205,8 +205,8 @@ export default function Bill() {
           label="Location"
           onChange={(e)=>setLocation(e.target.value)}
         >
-          <MenuItem value={"Bhubaneswar,Sector10"}>Bhubaneswar</MenuItem>
-          <MenuItem value={"Cuttack, Sector-20"}>Cuttack</MenuItem>
+          <MenuItem value={"At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093"}>Adakata</MenuItem>
+          <MenuItem value={"At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091"}>Sorada</MenuItem>
         </Select>
       </FormControl>
             </Stack>

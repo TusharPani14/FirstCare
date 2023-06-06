@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Footer from '../UserPages/Footer';
 
 
 const StockTable = ({DataArray}) => {
@@ -85,6 +86,8 @@ const StockTable = ({DataArray}) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
         </Box>
+        <Footer/>
+        
     </>
   )
 }
