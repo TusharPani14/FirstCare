@@ -39,7 +39,7 @@ const UserHeader = () => {
           component="img"
           sx={{
             height: 233,
-            width: { xs: 100, sm: 125, xl: 190 },
+            width: { xs: 100, sm: 125, xl: 180 },
             maxHeight: { xs: 233, md: 167 },
             maxWidth: { xs: 350, md: 250 },
             objectFit: "contain",
@@ -56,7 +56,7 @@ const UserHeader = () => {
           <Link to="/userStockView">
             <Typography
               sx={{
-                fontSize: { xs: "15px", xl: "23px" },
+                fontSize: { xs: "15px", xl: "19px" },
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
@@ -67,7 +67,7 @@ const UserHeader = () => {
           <Link to="/bill">
             <Typography
               sx={{
-                fontSize: { xs: "15px", xl: "23px" },
+                fontSize: { xs: "15px", xl: "19px" },
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
@@ -77,7 +77,7 @@ const UserHeader = () => {
           </Link>
           <SettingsIcon
             sx={{
-              fontSize: { xs: "20px", xl: "28px" },
+              fontSize: { xs: "20px", xl: "25px" },
               cursor: "pointer",
               display: { xs: "none", md: "block" },
             }}
@@ -87,8 +87,8 @@ const UserHeader = () => {
               variant="contained"
               color="primary"
               sx={{
-                fontSize: { xs: "12px", sm: "13px", xl: "19px" },
-                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
+                fontSize: { xs: "12px", sm: "13px", xl: "16px" },
+                padding: { xs: "5px 15px", sm: "7px 24px", xl: "7px 26px" },
                 display: { xs: "none", md: "block" },
               }}
               onClick={() => {

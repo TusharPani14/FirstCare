@@ -377,7 +377,7 @@ const handleChangeRowsPerPage = (event) => {
             >
               Sort By{" "}
               <KeyboardArrowDownIcon
-                sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
+                sx={{ fontSize: { xs: "16px", sm: "17px", xl: "19px" } }}
               />
             </CustYellowButton>
             <Menu
@@ -635,6 +635,7 @@ const handleChangeRowsPerPage = (event) => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      
     </>
   );
 };

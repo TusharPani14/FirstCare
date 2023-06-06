@@ -111,7 +111,7 @@ const StockView = () => {
           }}
         >
           <Typography
-            sx={{ fontSize: { xs: "19px", xl: "29px" }, fontWeight: "700" }}
+            sx={{ fontSize: { xs: "19px", xl: "27px" }, fontWeight: "700" }}
           >
             Stock List
           </Typography>
@@ -132,7 +132,7 @@ const StockView = () => {
               aria-haspopup="true"
               onClick={handleMenu2}
               sx={{
-                fontSize: { xs: "12px", sm: "13px", xl: "19px" },
+                fontSize: { xs: "12px", sm: "13px", xl: "16px" },
                 padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
               }}
             >
