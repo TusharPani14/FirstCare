@@ -11,7 +11,7 @@ import StockSortAlgo from "../../Utils/StockSortAlgo";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Footer from "./Footer";
 const StockView = () => {
   const navigate = useNavigate();
   // sorting function start
@@ -199,6 +199,7 @@ const StockView = () => {
         </Backdrop>
         {stockList[0] != null && <StockTable DataArray={stockList} />}{" "}
       </Box>
+      <Footer/>
     </>
   );
 };

@@ -81,13 +81,17 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
               Sells & Profits
             </Typography>
           </Link>
-          <SettingsIcon
-            sx={{
-              fontSize: { xs: "20px", xl: "28px" },
-              cursor: "pointer",
-              display: { xs: "none", md: "block" },
-            }}
-          />
+          <Link to="/user">
+            <Typography
+              sx={{
+                fontSize: { xs: "15px", xl: "23px" },
+                cursor: "pointer",
+                display: { xs: "none", md: "block" },
+              }}
+            >
+              Add/Create User
+            </Typography>
+          </Link>
           <Link to="/">
             <CustYellowButton
               variant="contained"
@@ -146,6 +150,11 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
               <Link to="/">
                 <MenuItem onClick={handleClose} sx={{ textDecoration: "none" }}>
                   Log Out
+                </MenuItem>
+              </Link>
+              <Link to="/user">
+                <MenuItem onClick={handleClose} sx={{ textDecoration: "none" }}>
+                  Add/Update User
                 </MenuItem>
               </Link>
             </Menu>

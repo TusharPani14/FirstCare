@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../UserPages/Footer"
 
 const showToastMessage = () => {
   toast.warning("Don't leave the Date fields Empty !", {
@@ -304,6 +305,7 @@ export default function CreateStock() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Footer/>
     </>
   );
 }

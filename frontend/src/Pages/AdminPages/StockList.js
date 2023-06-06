@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UpdateStock from "./UpdateStock";
+import Footer from "../UserPages/Footer";
 
 const StockList = () => {
   const navigate = useNavigate();
@@ -247,6 +248,7 @@ const StockList = () => {
           {stockList[0] != null && <StockTable DataArray={stockList} />}
         </Box>
       )}
+      <Footer/>
     </>
   );
 };

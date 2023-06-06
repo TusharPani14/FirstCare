@@ -22,6 +22,10 @@ import UserHeader from "./UserHeader";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';  
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 export default function Bill() {
@@ -98,6 +102,7 @@ export default function Bill() {
   const [invdate, setInvdate] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [phnnum, setPhnnum] = useState("");
+  const [location,setLocation]= useState("")
   const [rate, setRate] = useState("");
   const [amount, setAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
@@ -117,7 +122,7 @@ export default function Bill() {
                 First Care Medical Store
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                SORADA,NUAGAON,NAYAGARH
+                {location}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
                 Phone Number:7008554435
@@ -191,6 +196,19 @@ export default function Bill() {
                 value={phnnum}
                 onChange={(e) => setPhnnum(e.target.value)}
               />
+                 <FormControl sx={{width:400}}>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={location}
+          label="Location"
+          onChange={(e)=>setLocation(e.target.value)}
+        >
+          <MenuItem value={"Bhubaneswar,Sector10"}>Bhubaneswar</MenuItem>
+          <MenuItem value={"Cuttack, Sector-20"}>Cuttack</MenuItem>
+        </Select>
+      </FormControl>
             </Stack>
             <Stack>
               <Typography variant="h5" sx={{ marginBottom: "20px" }}>

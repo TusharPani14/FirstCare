@@ -3,7 +3,7 @@ import { Backdrop, Box, Button, CircularProgress, Stack, TextField, Typography }
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
-
+import Footer from "./Footer";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -314,6 +314,7 @@ const Login = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Footer/>
     </>
   );
 };

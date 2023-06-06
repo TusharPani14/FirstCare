@@ -10,7 +10,7 @@ import {
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
-
+import Footer from "../UserPages/Footer"
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -320,6 +320,7 @@ const SignIn = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Footer/>
     </>
   );
 };
