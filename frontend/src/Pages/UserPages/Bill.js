@@ -112,6 +112,8 @@ export default function Bill() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   let total = amount - amount * (discount / 100);
+  const address1="At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093";
+  const address2="At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091";
   return (
     <>
       {showInv ? (
@@ -125,10 +127,10 @@ export default function Bill() {
                 {location}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                Phone Number:7008554435
+                Phone Number:{location === address1 ? 7008554435 : 999999999}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                GST: D.L.No.: NA-40631R NA-4063RC 17331RX
+                GST: D.L.No.: {location === address1 ? "NA-40631R NA-4063RC 17331RX" : "NANANANANANANANNANA" } 
               </Typography>
             </Stack>
             <Button
