@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
   IconButton,
-  Snackbar,
+    Snackbar,
   Alert,
   Backdrop,
   CircularProgress,
@@ -377,7 +377,7 @@ const handleChangeRowsPerPage = (event) => {
             >
               Sort By{" "}
               <KeyboardArrowDownIcon
-                sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
+                sx={{ fontSize: { xs: "16px", sm: "17px", xl: "19px" } }}
               />
             </CustYellowButton>
             <Menu
@@ -486,6 +486,12 @@ const handleChangeRowsPerPage = (event) => {
                   >
                     Rate
                   </TableCell>
+                  <TableCell
+                    sx={{ fontWeight: "600", fontSize: { xl: "22px" } }}
+                    align="right"
+                  >
+                    Location
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -524,6 +530,9 @@ const handleChangeRowsPerPage = (event) => {
                     </TableCell>
                     <TableCell sx={{ fontSize: { xl: "20px" } }} align="right">
                       {row.rate}
+                    </TableCell>
+                    <TableCell sx={{ fontSize: { xl: "20px" } }} align="right">
+                      {row.location}
                     </TableCell>
                     <TableCell align="right">
                       <IconButton>
@@ -626,6 +635,7 @@ const handleChangeRowsPerPage = (event) => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      
     </>
   );
 };

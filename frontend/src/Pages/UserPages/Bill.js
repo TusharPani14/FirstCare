@@ -126,6 +126,7 @@ export default function Bill() {
   const [invdate, setInvdate] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [phnnum, setPhnnum] = useState("");
+  const [location,setLocation]= useState("")
   const [rate, setRate] = useState("");
   const [amount, setAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
@@ -136,6 +137,8 @@ export default function Bill() {
   const [stockNames, setStockNames] = useState([]);
   const navigate = useNavigate();
   let total = amount - amount * (discount / 100);
+  const address1="At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093";
+  const address2="At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091";
   return (
     <>
       {showInv ? (
@@ -146,13 +149,13 @@ export default function Bill() {
                 First Care Medical Store
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                SORADA,NUAGAON,NAYAGARH
+                {location}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                Phone Number:7008554435
+                Phone Number:{location === address1 ? 7008554435 : 999999999}
               </Typography>
               <Typography variant="body1" sx={{ fontWeight: "700" }}>
-                GST: D.L.No.: NA-40631R NA-4063RC 17331RX
+                GST: D.L.No.: {location === address1 ? "NA-40631R NA-4063RC 17331RX" : "NANANANANANANANNANA" } 
               </Typography>
             </Stack>
             <Button
@@ -220,6 +223,19 @@ export default function Bill() {
                 value={phnnum}
                 onChange={(e) => setPhnnum(e.target.value)}
               />
+                 <FormControl sx={{width:400}}>
+        <InputLabel id="demo-simple-select-label">Location</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={location}
+          label="Location"
+          onChange={(e)=>setLocation(e.target.value)}
+        >
+          <MenuItem value={"At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093"}>Adakata</MenuItem>
+          <MenuItem value={"At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091"}>Sorada</MenuItem>
+        </Select>
+      </FormControl>
             </Stack>
             <Stack>
               <Typography variant="h5" sx={{ marginBottom: "20px" }}>

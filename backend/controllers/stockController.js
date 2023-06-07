@@ -59,7 +59,7 @@ const createStocks = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Product not added");
+    throw new Error(e.message);
   }
 });
 
@@ -75,7 +75,7 @@ const getStocks = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Stock fetching unsuccessful");
+    throw new Error(e.message);
   }
 });
 
@@ -92,7 +92,7 @@ const getStockCP = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Stock fetching unsuccessful");
+    throw new Error(e.message);
   }
 });
 
@@ -175,7 +175,7 @@ const deleteStocks = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Stock deletion unsuccessful");
+    throw new Error(e.message);
   }
 });
 
