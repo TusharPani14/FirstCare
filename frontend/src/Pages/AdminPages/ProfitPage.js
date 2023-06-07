@@ -6,6 +6,7 @@ import ProfitTable from "./ProfitTable";
 import { ProfitData } from "../../Utils/TrialData";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import Footer from "../UserPages/Footer";
 
 const ProfitPage = () => {
   const [profitList, setProfitList] = useState(() => []);
@@ -126,6 +127,7 @@ const ProfitPage = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Footer/>
     </>
   );
 };

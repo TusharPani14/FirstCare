@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -39,7 +40,7 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
           component="img"
           sx={{
             height: 233,
-            width: { xs: 100, sm: 125, xl: 190 },
+            width: { xs: 100, sm: 125, xl: 180 },
             maxHeight: { xs: 233, md: 167 },
             maxWidth: { xs: 350, md: 250 },
             objectFit: "contain",
@@ -56,9 +57,8 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
           <Link to="/adminStockList">
             <Typography
               sx={{
-                fontSize: { xs: "15px", xl: "23px" },
+                fontSize: { xs: "15px", xl: "19px" },
                 cursor: "pointer",
-
                 display: { xs: "none", md: "block" },
               }}
               onClick={() => {
@@ -73,7 +73,7 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
           <Link to="/adminProfitPage">
             <Typography
               sx={{
-                fontSize: { xs: "15px", xl: "23px" },
+                fontSize: { xs: "15px", xl: "19px" },
                 cursor: "pointer",
                 display: { xs: "none", md: "block" },
               }}
@@ -81,20 +81,24 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
               Sells & Profits
             </Typography>
           </Link>
-          <SettingsIcon
-            sx={{
-              fontSize: { xs: "20px", xl: "28px" },
-              cursor: "pointer",
-              display: { xs: "none", md: "block" },
-            }}
-          />
+          <Link to="/user">
+            <Typography
+              sx={{
+                fontSize: { xs: "15px", xl: "19px" },
+                cursor: "pointer",
+                display: { xs: "none", md: "block" },
+              }}
+            >
+              Add/Create User
+            </Typography>
+          </Link>
           <Link to="/">
             <CustYellowButton
               variant="contained"
               color="primary"
               sx={{
-                fontSize: { xs: "12px", sm: "13px", xl: "19px" },
-                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
+                fontSize: { xs: "12px", sm: "13px", xl: "16px" },
+                padding: { xs: "5px 15px", sm: "7px 24px", xl: "7px 26px" },
                 display: { xs: "none", md: "block" },
               }}
               onClick={() => {
@@ -146,6 +150,11 @@ const AdminHeader = ({setUpdateTrigger, updateTrigger}) => {
               <Link to="/">
                 <MenuItem onClick={handleClose} sx={{ textDecoration: "none" }}>
                   Log Out
+                </MenuItem>
+              </Link>
+              <Link to="/user">
+                <MenuItem onClick={handleClose} sx={{ textDecoration: "none" }}>
+                  Add/Update User
                 </MenuItem>
               </Link>
             </Menu>

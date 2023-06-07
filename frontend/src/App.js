@@ -6,7 +6,7 @@ import SignIn from "./Pages/AdminPages/SignIn";
 import Bill from "./Pages/UserPages/Bill";
 import UpdateStock from "./Pages/AdminPages/UpdateStock";
 import ProfitPage from "./Pages/AdminPages/ProfitPage";
-import DeleteStock from "./Pages/AdminPages/DeleteStock";
+import CreateUser from "./Pages/AdminPages/CreateUser";
 import CreateStock from "./Pages/AdminPages/CreateStock";
 
 
@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<SignIn />} />
         <Route path="/adminStockList" element={<StockList/>} />
         <Route path="/adminProfitPage" element={<ProfitPage/>} />
-        {/* <Route path="/deleteStockPage" element={<DeleteStock/>} /> */}
+        <Route path="/user" element={<CreateUser/>} />
         <Route path="/update" element={<UpdateStock/>} />
         <Route path="/create" element={<CreateStock/>} />
         <Route path="/userLogin" element={<LogIn />} />

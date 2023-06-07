@@ -6,11 +6,12 @@ import {
   Stack,
   TextField,
   Typography,
+  Button
 } from "@mui/material";
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
-
+import Footer from "../UserPages/Footer"
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -23,7 +24,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert  elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const SignIn = () => {
@@ -115,7 +116,7 @@ const SignIn = () => {
             component="img"
             sx={{
               height: 233,
-              width: { xs: 100, sm: 125, xl: 190 },
+              width: { xs: 100, sm: 125, xl: 180 },
               maxHeight: { xs: 233, md: 167 },
               maxWidth: { xs: 350, md: 250 },
               objectFit: "contain",
@@ -128,8 +129,8 @@ const SignIn = () => {
               variant="contained"
               color="primary"
               sx={{
-                fontSize: { xs: "12px", sm: "13px", xl: "18px" },
-                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
+                fontSize: { xs: "12px", sm: "13px", xl: "16px" },
+                padding: { xs: "5px 15px", sm: "7px 24px", xl: "8px 30px" },
               }}
             >
               User Login
@@ -143,8 +144,8 @@ const SignIn = () => {
             overflowX: "hidden",
             flexDirection: { xs: "column", sm: "row" },
             alignItems: "center",
-            height: "85vh",
-            padding: "5px 30px",
+            height: "80vh",
+            padding: "0px 30px",
             justifyContent: "space-evenly",
             // background: "yellow",
           }}
@@ -161,16 +162,18 @@ const SignIn = () => {
                 sm: "50px 20px",
                 md: "30px 10px",
                 lg: "50px 30px ",
-                xl: "130px 50px",
+                xl: "55px 45px",
               },
               backgroundColor: "#2C444E",
               borderRadius: "25px",
               color: "#fff",
+              width:{xs:"99%",sm:"70%",md:"42%",lg:'33%'},
+            
             }}
           >
             <Typography
               sx={{
-                fontSize: { xs: "24px", md: "26px", lg: "27px", xl: "40px" },
+                fontSize: { xs: "24px", md: "26px", lg: "29px", xl: "35px" },
                 fontWeight: "500",
                 ":hover": "fontSize:100px",
               }}
@@ -179,7 +182,7 @@ const SignIn = () => {
             </Typography>
             <Typography
               sx={{
-                fontSize: { xs: "14px", md: "15px", xl: "24px" },
+                fontSize: { xs: "14px", md: "14.5px", xl: "15.5px" },
                 fontWeight: "500",
                 letterSpacing: "0.02em",
                 lineHeight: "30px",
@@ -201,12 +204,9 @@ const SignIn = () => {
               sx={{
                 width: { xs: "90%", lg: "100%" },
                 color: "white",
-                "& label.Mui-focused": {
-                  color: "#FFF",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "#FFF",
-                },
+                '& .MuiInputLabel-root': {
+                  color: '#fff',
+                },    
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
                     borderColor: "#FFF",
@@ -217,7 +217,7 @@ const SignIn = () => {
                   "&.Mui-focused fieldset": {
                     borderColor: "#FFF",
                   },
-                },
+                }
               }}
             />
             <TextField
@@ -248,12 +248,9 @@ const SignIn = () => {
               sx={{
                 width: { xs: "90%", lg: "100%" },
                 color: "white",
-                "& label.Mui-focused": {
-                  color: "#FFF",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "#FFF",
-                },
+                '& .MuiInputLabel-root': {
+                  color: '#fff',
+                },    
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
                     borderColor: "#FFF",
@@ -267,27 +264,37 @@ const SignIn = () => {
                 },
               }}
             />
-            <CustYellowButton
+            <Button
               fullWidth
               variant="contained"
               color="primary"
               onClick={handleSignin}
               sx={{
-                fontSize: { xs: "12px", sm: "13px", xl: "22px" },
-                padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 35px" },
+                fontSize: { xs: "12px", sm: "13px",md:"15px", xl: "18px" },
+                padding: { xs: "7px 15px", sm: "9px 24px", xl: "9px 35px" },
+                width:{xs:"91%",md:"92%",lg:"100%"},
+                fontWeight: "600",
+                borderRadius: "40px",
+                letterSpacing: "-0.008e",
+                textTransform: "capitalize",
+                borderRadius:"10px",
+              }}
+              style={{
+
               }}
             >
               Sign In
-            </CustYellowButton>
+            </Button>
           </Stack>
 
           <Box
             component="img"
             sx={{
               display: { xs: "none", md: "block" },
-              height: { xs: 90, md: 380, lg: 455, xl: 690 },
-              width: { xs: 90, md: 470, lg: 570, xl: 790 },
+              height: { xs: 90, md: 380, lg: 475, xl: 500 },
+              width: { xs: 90, md: 470, lg: 480, xl: 580 },
             }}
+            style={{objectFit:"contain"}}
             alt="The house from the offer."
             src={Img}
           />
@@ -320,6 +327,7 @@ const SignIn = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Footer/>
     </>
   );
 };

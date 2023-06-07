@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UpdateStock from "./UpdateStock";
+// import Footer from "../UserPages/Footer";
 
 const StockList = () => {
   const navigate = useNavigate();
@@ -148,7 +149,7 @@ const StockList = () => {
                   sx={{
                     border: "2px solid #000",
                     padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                    fontSize: { xs: "10px", sm: "12px", xl: "16px" },
+                    fontSize: { xs: "10px", sm: "12px", xl: "15px" },
                     fontWeight: "600",
                     "&:hover": { margin: " 0 1px", transform: "scale(0.99)" },
                   }}
@@ -163,7 +164,8 @@ const StockList = () => {
                 sx={{
                   border: "2px solid #000",
                   padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
-                  fontSize: { xs: "11px", sm: "12px", xl: "16px" },
+                  fontSize: { xs: "11px", sm: "12px", xl: "15px" },
+                  "&:hover":{marginLeft:"1.7px"},
                   fontWeight: "600",
                 }}
                 onClick={() => setUpdateTrigger(true)}
@@ -179,7 +181,7 @@ const StockList = () => {
                 aria-haspopup="true"
                 onClick={handleMenu2}
                 sx={{
-                  fontSize: { xs: "12px", sm: "13px", xl: "19px" },
+                  fontSize: { xs: "12px", sm: "13px", xl: "16px" },
                   padding: { xs: "5px 15px", sm: "7px 24px", xl: "9px 30px" },
                 }}
               >
@@ -247,6 +249,7 @@ const StockList = () => {
           {stockList[0] != null && <StockTable DataArray={stockList} />}
         </Box>
       )}
+      {/* <Footer/> */}
     </>
   );
 };

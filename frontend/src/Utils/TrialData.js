@@ -9,6 +9,7 @@ export const Data = [
     "quantity": 20,
     "free": 0,
     "rate": 154,
+    "location":"Bhubaneswar"
   },
   {
     "serial": 1,
@@ -20,6 +21,7 @@ export const Data = [
     "quantity": 20,
     "free": 0,
     "rate": 154,
+    "location":"Bhubaneswar"
   },
   {
     "serial": 1,
@@ -31,6 +33,7 @@ export const Data = [
     "quantity": 20,
     "free": 0,
     "rate": 154,
+    "location":"Cuttack"
   },
   {
     "serial": 1,
@@ -42,6 +45,7 @@ export const Data = [
     "quantity": 20,
     "free": 0,
     "rate": 154,
+    "location":"Cuttack"
   },
   {
     "serial": 1,
@@ -53,6 +57,7 @@ export const Data = [
     "quantity": 20,
     "free": 0,
     "rate": 154,
+    "location":"Cuttack"
   },
 ];
 export const ProfitData = [

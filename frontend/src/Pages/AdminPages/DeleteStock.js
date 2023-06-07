@@ -16,6 +16,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { CustYellowButton } from "../../Utils/Theme";
 import { Data } from "../../Utils/TrialData";
+import Footer from "../UserPages/Footer";
 
 const DeleteStock = () => {
   return (
@@ -189,6 +190,7 @@ const DeleteStock = () => {
           </Box>
         </Stack>
       </Box>
+      <Footer/>
     </>
   );
 };

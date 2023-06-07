@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../UserPages/Footer"
 
 const showToastMessage = () => {
   toast.warning("Don't leave the Date fields Empty !", {
@@ -304,6 +305,9 @@ export default function CreateStock() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Stack sx={{backgroundColor:"#242A56",position:"sticky",bottom:"0",width:"100%",padding:"15px",alignItems:"center"}}>
+            <Typography variant="body1" color="white"><a href="https://www.fluxmedia.in/" target="_blank">Created By: Flux Media</a></Typography>
+        </Stack>
     </>
   );
 }
