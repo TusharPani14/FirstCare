@@ -20,16 +20,21 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Autocomplete,
+  IconButton
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
+import ReactToPrint from "react-to-print";
 import UserHeader from "./UserHeader";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PrintIcon from '@mui/icons-material/Print';
 export default function Bill() {
   let userInfo;
+  let componentRef = useRef();
   function convert(str) {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
@@ -42,6 +47,10 @@ export default function Bill() {
   });
 
   async function handleprint() {
+    if(pname === null || invdate === null){
+      setOpenError1(true)
+      return
+    }
     setLoading(true);
     const newInvoiceDate = convert(invdate.$d);
     try {
@@ -116,10 +125,25 @@ export default function Bill() {
 
     setOpenSuccess(false);
     setOpenError(false);
+    setOpenError1(false);
   };
+  
+  function back(){
+    setShowInv(false)
+    setDiscount(null)
+    setInvdate(null)
+    setLocation("")
+    setPhnnum("")
+    setUsername("")
+    setInvnum("")
+    setAmount(0)
+    setData([])
+  
+  }
+
 
   const [data, setData] = useState([]);
-  const [pname, setPname] = useState("");
+  const [pname, setPname] = useState(null);
   const [showInv, setShowInv] = useState(false);
   const [username, setUsername] = useState("");
   const [invnum, setInvnum] = useState("");
@@ -129,10 +153,11 @@ export default function Bill() {
   const [location,setLocation]= useState("")
   const [rate, setRate] = useState("");
   const [amount, setAmount] = useState(0);
-  const [discount, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState(null);
   const [loading, setLoading] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [openError1, setOpenError1] = useState(false);
   const [message, setMessage] = useState("");
   const [stockNames, setStockNames] = useState([]);
   const navigate = useNavigate();
@@ -142,8 +167,17 @@ export default function Bill() {
   return (
     <>
       {showInv ? (
-        <Stack sx={{ color: "black", padding: "50px" }} gap="20px">
-          <Stack direction="row" justifyContent="space-between">
+        <Box sx={{padding:"15px"}}>
+         <Stack direction="row" gap="15px">
+         <ReactToPrint
+          trigger={() => <Button variant="contained">Print</Button>}
+          content={() => componentRef}
+        />
+        <Button  onClick={()=>back()} variant="contained">Back</Button>
+         </Stack>
+          <Stack sx={{ color: "black", padding: "50px" }} gap="20px" ref={(el) => (componentRef = el)}>
+          
+          <Stack direction="row" justifyContent="space-between" >
             <Stack>
               <Typography variant="h4" sx={{ fontWeight: "700" }}>
                 First Care Medical Store
@@ -158,17 +192,6 @@ export default function Bill() {
                 GST: D.L.No.: {location === address1 ? "NA-40631R NA-4063RC 17331RX" : "NANANANANANANANNANA" } 
               </Typography>
             </Stack>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ height: "40px", display: showInv ? "block" : "none" }}
-              onClick={() => {
-                setShowInv(false);
-                window.print();
-              }}
-            >
-              Print
-            </Button>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <Stack>
@@ -188,7 +211,56 @@ export default function Bill() {
               </Typography>
             </Stack>
           </Stack>
-        </Stack>
+          <Stack padding="50px">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 500 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Product Name</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Rate</TableCell>
+                <TableCell>Price</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data.map((n) => {
+                return (
+                  <TableRow key={n.pname}>
+                    <TableCell>{n.pname}</TableCell>
+                    <TableCell>{n.quantity}</TableCell>
+                    <TableCell>{n.rate}</TableCell>
+                    <TableCell>{n.quantity * n.rate}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan="3" align="right" sx={{ fontWeight: "700" }}>
+                  Sub-Total
+                </TableCell>
+                <TableCell sx={{ fontWeight: "700" }}>{amount}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="3" align="right" sx={{ fontWeight: "700" }}>
+                  Total Discount
+                </TableCell>
+                <TableCell sx={{ fontWeight: "700" }}>
+                  {(amount * discount) / 100}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan="3" align="right" sx={{ fontWeight: "700" }}>
+                  Total
+                </TableCell>
+                <TableCell sx={{ fontWeight: "700" }}>{total}</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </Stack>
+        </Stack>    
+        </Box>
       ) : (
         <Stack>
           <UserHeader />
@@ -250,22 +322,15 @@ export default function Bill() {
                   sx={{ flexDirection: { xs: "column", sm: "row" } }}
                   gap="20px"
                 >
-                  <FormControl sx={{width: 300 }}>
-                    <InputLabel id="demo-simple-select-label">Meds Name</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={pname}
-                      label="Product Name"
-                      onChange={(e) => setPname(e.target.value)}
-                    >
-                      {stockNames.map((name) => (
-                        <MenuItem key={name} value={name}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                   <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={stockNames}
+      value={pname}
+      onChange={(e,v) => setPname(v)}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params}  onChange={({ target }) => setPname(target.value)} label="Medicine Name" />}
+    />
                   <TextField
                     label="Rate"
                     name="rate"
@@ -323,9 +388,7 @@ export default function Bill() {
               </Stack>
             </Stack>
           </Stack>
-        </Stack>
-      )}
-      <Stack padding="50px">
+          <Stack padding="50px">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="simple table">
             <TableHead>
@@ -373,6 +436,9 @@ export default function Bill() {
           </Table>
         </TableContainer>
       </Stack>
+        </Stack>
+      )}
+    
       <Snackbar
         open={openSuccess}
         autoHideDuration={6000}
@@ -393,10 +459,20 @@ export default function Bill() {
           {message}
         </Alert>
       </Snackbar>
+      <Snackbar
+        open={openError1}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          "Don't Leave Any InputField Empty"
+        </Alert>
+      </Snackbar>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
-        onClick={handleClose}
+        onClick={handleClose} 
       >
         <CircularProgress color="inherit" />
       </Backdrop>

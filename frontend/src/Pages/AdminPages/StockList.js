@@ -4,8 +4,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  Select,
   Stack,
   Typography,
+  FormControl, InputLabel
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -32,7 +34,7 @@ const StockList = () => {
   let userInfo;
   StockSortAlgo(sortMethod, stockList, NewData);
   // sorting function end
-
+  const [showloc,setShowloc] = useState("")
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -190,6 +192,20 @@ const StockList = () => {
                   sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
                 />
               </CustYellowButton>
+              <FormControl sx={{width:200}}>
+        <InputLabel id="demo-simple-select-label">Location</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={showloc}
+          label="Location"
+          onChange={(e)=>setShowloc(e.target.value)}
+        >
+          <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
+          <MenuItem value={"Puri"}>Puri</MenuItem>
+          <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
+        </Select>
+      </FormControl>
               <Menu
                 sx={{ padding: "100px" }}
                 id="sort"
