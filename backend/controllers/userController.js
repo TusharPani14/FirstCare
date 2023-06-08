@@ -97,4 +97,20 @@ const getUsers = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser, authUser, getUsers, updateUser };
+const deleteUser = asyncHandler(async (req, res) => {
+  const { _id } = req.body;
+  try {
+    const stock = await User.deleteOne({ _id });
+    if (stock) {
+      res.status(201).json({
+        message: "User Removed successfully",
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(400);
+    throw new Error(e.message);
+  }
+});
+
+module.exports = { createUser, authUser, getUsers, updateUser ,deleteUser};

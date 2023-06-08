@@ -16,7 +16,7 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
-  Modal
+  Modal,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
@@ -44,7 +44,7 @@ export default function CreateUser() {
   const handleOpen = () => setOpen(true);
 
   const showToastMessage = () => {
-    toast.success("User deleted successfully!", {
+    toast.success("User removed successfully!", {
       position: toast.POSITION.TOP_RIGHT,
     });
   };
@@ -59,7 +59,6 @@ export default function CreateUser() {
     setUserupd(n.user);
     setId(n.id);
   }
-
 
   async function updateButton() {
     setLoading(true);
@@ -82,7 +81,7 @@ export default function CreateUser() {
       if (data) {
         setMessage(data.message);
         setOpenSuccess(true);
-        fetchUsers()
+        fetchUsers();
       }
       setLoading(false);
     } catch (e) {
@@ -113,7 +112,7 @@ export default function CreateUser() {
       if (data) {
         setMessage(data.message);
         setOpenSuccess(true);
-        fetchUsers()
+        fetchUsers();
       }
       setLoading(false);
     } catch (e) {
@@ -153,12 +152,33 @@ export default function CreateUser() {
     }
   };
 
-   function deleteUser(){
-    
-      showToastMessage()
-      setOpen(false)
-    
-   }
+  async function deleteUser() {
+    setLoading(true);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "/user/deleteUser",
+        { _id: id },
+        config
+      );
+      if (data) {
+        setMessage(data.message);
+        setOpenSuccess(true);
+        window.location.reload(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setMessage(error.message);
+      setOpenError(true);
+    }
+    setOpen(false);
+  }
 
   useEffect(() => {
     fetchUsers();
@@ -217,7 +237,9 @@ export default function CreateUser() {
             value={pwdupd}
             onChange={(e) => setPwdupd(e.target.value)}
           />
-          <Button variant="contained" onClick={updateButton}>update User</Button>
+          <Button variant="contained" onClick={updateButton}>
+            update User
+          </Button>
         </Stack>
       </Stack>
       <TableContainer
@@ -243,7 +265,9 @@ export default function CreateUser() {
                     </IconButton>
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={() => setOpen(true)} >
+                    <IconButton onClick={() => {
+                      setId(n.id)
+                      setOpen(true)}}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
@@ -307,7 +331,7 @@ export default function CreateUser() {
               component="h2"
               mb="15px"
             >
-              Are you sure want to Delete
+              Are you sure want to remove this user
             </Typography>
             <Stack direction="row" gap="10px">
               <Button
