@@ -30,11 +30,12 @@ const StockList = () => {
   const [loading, setLoading] = useState(false);
   const [stockList, setStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [showloc,setShowloc] = useState("Bhubaneswar")
   let NewData = Data;
   let userInfo;
-  StockSortAlgo(sortMethod, stockList, NewData);
+  StockSortAlgo(sortMethod, stockList, NewData,showloc);
   // sorting function end
-  const [showloc,setShowloc] = useState("")
+  
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -101,6 +102,7 @@ const StockList = () => {
       return;
     }
   };
+
 
   return (
     <>
@@ -248,6 +250,12 @@ const StockList = () => {
                   sx={{ textDecoration: "none" }}
                 >
                   Batch
+                </MenuItem>
+                <MenuItem
+                  onClick={() => setSortMethod("location")}
+                  sx={{ textDecoration: "none" }}
+                >
+                  Location
                 </MenuItem>
                 {/* </Link> */}
               </Menu>
