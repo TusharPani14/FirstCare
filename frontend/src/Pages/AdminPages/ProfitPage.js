@@ -74,7 +74,6 @@ const ProfitPage = () => {
 
   async function myFunction(billItem, config) {
     var totalCP = 0;
-
     await Promise.all(
       billItem.products.map(async (product) => {
         const cp = await axios.post(
