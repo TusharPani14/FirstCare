@@ -32,8 +32,9 @@ const StockSortAlgo = (sortMethod,Data,NewData,showloc) => {
         data[i]=a
         i+=1;
       }
-     });
       return data
+     });
+      console.log(data)
       break;
     //
         case "batch":
