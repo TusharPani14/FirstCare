@@ -7,6 +7,10 @@ import {
   Snackbar,
   Backdrop,
   CircularProgress,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Select
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
@@ -212,12 +216,20 @@ export default function CreateStock() {
                     onChange={(neWValue) => setExpiry(neWValue)}
                   />
                 </LocalizationProvider>
-                <TextField
-                  label="Location"
-                  sx={{ width: 400 }}
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
+                  <FormControl sx={{width:400}}>
+          <InputLabel id="demo-simple-select-label">Location</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={location}
+            label="Location"
+            onChange={(e)=>setLocation(e.target.value)}
+          >
+            <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
+            <MenuItem value={"Puri"}>Puri</MenuItem>
+            <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
+          </Select>
+        </FormControl>
               </Stack>
             </Stack>
             <Stack gap="20px">

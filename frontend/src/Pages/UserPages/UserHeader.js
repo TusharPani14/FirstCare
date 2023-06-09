@@ -75,13 +75,6 @@ const UserHeader = () => {
               Create Bill
             </Typography>
           </Link>
-          <SettingsIcon
-            sx={{
-              fontSize: { xs: "20px", xl: "25px" },
-              cursor: "pointer",
-              display: { xs: "none", md: "block" },
-            }}
-          />
           <Link to="/userLogin">
             <CustYellowButton
               variant="contained"

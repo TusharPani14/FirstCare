@@ -1,4 +1,4 @@
-const StockSortAlgo = (sortMethod,Data,NewData) => {
+const StockSortAlgo = (sortMethod,Data,NewData,showloc) => {
 
     switch (sortMethod) {
         case "name":
@@ -24,6 +24,19 @@ const StockSortAlgo = (sortMethod,Data,NewData) => {
           });
           break;
     // 
+    case "location":
+      let data=[]
+      let i=0;
+     NewData = Data.map((a) => {
+      if(a.location===showloc){
+        data[i]=a
+        i+=1;
+      }
+      return data
+     });
+      console.log(data)
+      break;
+    //
         case "batch":
           NewData = Data.sort((a, b) => {
             let fa = a.batch.toLowerCase(),

@@ -16,13 +16,16 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
+  Modal,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Footer from "../UserPages/Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function CreateUser() {
   var userInfo;
@@ -37,12 +40,14 @@ export default function CreateUser() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [userList, setUserList] = useState(() => []);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
-  const [userdata, setUserdata] = useState([
-    { user: "abcd", pwd: "12336" },
-    { user: "abcd", pwd: "12336" },
-    { user: "abcd", pwd: "12336" },
-  ]);
+  const showToastMessage = () => {
+    toast.success("User removed successfully!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
   useEffect(() => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -54,7 +59,6 @@ export default function CreateUser() {
     setUserupd(n.user);
     setId(n.id);
   }
-
 
   async function updateButton() {
     setLoading(true);
@@ -77,7 +81,7 @@ export default function CreateUser() {
       if (data) {
         setMessage(data.message);
         setOpenSuccess(true);
-        fetchUsers()
+        fetchUsers();
       }
       setLoading(false);
     } catch (e) {
@@ -108,7 +112,7 @@ export default function CreateUser() {
       if (data) {
         setMessage(data.message);
         setOpenSuccess(true);
-        fetchUsers()
+        fetchUsers();
       }
       setLoading(false);
     } catch (e) {
@@ -147,6 +151,34 @@ export default function CreateUser() {
       console.log(error);
     }
   };
+
+  async function deleteUser() {
+    setLoading(true);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        "/user/deleteUser",
+        { _id: id },
+        config
+      );
+      if (data) {
+        setMessage(data.message);
+        setOpenSuccess(true);
+        window.location.reload(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setMessage(error.message);
+      setOpenError(true);
+    }
+    setOpen(false);
+  }
 
   useEffect(() => {
     fetchUsers();
@@ -205,12 +237,14 @@ export default function CreateUser() {
             value={pwdupd}
             onChange={(e) => setPwdupd(e.target.value)}
           />
-          <Button variant="contained" onClick={updateButton}>update User</Button>
+          <Button variant="contained" onClick={updateButton}>
+            update User
+          </Button>
         </Stack>
       </Stack>
       <TableContainer
         component={Paper}
-        sx={{ maxWidth: "450px", margin: "25px auto" }}
+        sx={{ maxWidth: "650px", margin: "25px auto" }}
       >
         <Table sx={{ padding: "20px" }} aria-label="simple table">
           <TableHead>
@@ -228,6 +262,13 @@ export default function CreateUser() {
                   <TableCell>
                     <IconButton onClick={() => updateUser(n)}>
                       <UpgradeIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => {
+                      setId(n.id)
+                      setOpen(true)}}>
+                      <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -264,6 +305,54 @@ export default function CreateUser() {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Footer />
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              mb="15px"
+            >
+              Are you sure want to remove this user
+            </Typography>
+            <Stack direction="row" gap="10px">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => deleteUser()}
+              >
+                Confirm
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+        <ToastContainer />
+      </div>
     </>
   );
 }

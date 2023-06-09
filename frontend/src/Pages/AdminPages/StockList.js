@@ -4,8 +4,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  Select,
   Stack,
   Typography,
+  FormControl, InputLabel
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -28,11 +30,12 @@ const StockList = () => {
   const [loading, setLoading] = useState(false);
   const [stockList, setStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [showloc,setShowloc] = useState("Bhubaneswar")
   let NewData = Data;
   let userInfo;
-  StockSortAlgo(sortMethod, stockList, NewData);
+  StockSortAlgo(sortMethod, stockList, NewData,showloc);
   // sorting function end
-
+  
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -99,6 +102,7 @@ const StockList = () => {
       return;
     }
   };
+
 
   return (
     <>
@@ -190,6 +194,20 @@ const StockList = () => {
                   sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
                 />
               </CustYellowButton>
+              <FormControl sx={{width:200}}>
+        <InputLabel id="demo-simple-select-label">Location</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={showloc}
+          label="Location"
+          onChange={(e)=>setShowloc(e.target.value)}
+        >
+          <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
+          <MenuItem value={"Puri"}>Puri</MenuItem>
+          <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
+        </Select>
+      </FormControl>
               <Menu
                 sx={{ padding: "100px" }}
                 id="sort"
@@ -232,6 +250,12 @@ const StockList = () => {
                   sx={{ textDecoration: "none" }}
                 >
                   Batch
+                </MenuItem>
+                <MenuItem
+                  onClick={() => setSortMethod("location")}
+                  sx={{ textDecoration: "none" }}
+                >
+                  Location
                 </MenuItem>
                 {/* </Link> */}
               </Menu>

@@ -51,6 +51,9 @@ const StockTable = ({DataArray}) => {
                   <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
                     Rate
                   </TableCell>
+                  <TableCell sx={{ fontWeight: "600",fontSize: { xl: "22px" }, }} align="right">
+                    Location
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -71,6 +74,7 @@ const StockTable = ({DataArray}) => {
                     <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.quantity}</TableCell>
                     <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.free}</TableCell>
                     <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.rate}</TableCell>
+                    <TableCell sx={{fontSize: { xl: "20px" }, }} align="right">{row.location}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
