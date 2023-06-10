@@ -29,6 +29,7 @@ const StockList = () => {
   const [sortMethod, setSortMethod] = useState("");
   const [loading, setLoading] = useState(false);
   const [stockList, setStockList] = useState(() => []);
+  // const [newStockList, setNewStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [showloc,setShowloc] = useState("Bhubaneswar")
   let NewData = Data;
@@ -36,6 +37,7 @@ const StockList = () => {
   StockSortAlgo(sortMethod, stockList, NewData,showloc);
   // sorting function end
   
+
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -102,6 +104,19 @@ const StockList = () => {
       return;
     }
   };
+  // sort by location
+
+let newStockList=[];
+  let i = 0;
+  stockList.forEach(element => {
+    if(element.location === showloc){
+      newStockList[i]=element;
+      i++;
+    }
+  });
+  // console.log(newStockList)
+// sort by location
+
 
 
   return (
@@ -251,12 +266,12 @@ const StockList = () => {
                 >
                   Batch
                 </MenuItem>
-                <MenuItem
-                  onClick={() => setSortMethod("location")}
-                  sx={{ textDecoration: "none" }}
-                >
-                  Location
-                </MenuItem>
+                {/* <MenuItem */}
+                  {/* onClick={() => setSortMethod("location")} */}
+                  {/* sx={{ textDecoration: "none" }} */}
+                {/* > */}
+                  {/* Location */}
+                {/* </MenuItem> */}
                 {/* </Link> */}
               </Menu>
             </Stack>
@@ -270,7 +285,7 @@ const StockList = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          {stockList[0] != null && <StockTable DataArray={stockList} />}
+          {stockList[0] != null && <StockTable DataArray={newStockList} />}
         </Box>
       )}
       {/* <Footer/> */}

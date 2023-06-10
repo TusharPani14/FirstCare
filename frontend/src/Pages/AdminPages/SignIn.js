@@ -11,7 +11,7 @@ import {
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
-import Footer from "../UserPages/Footer"
+// import Footer from "../UserPages/Footer"
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -96,7 +96,7 @@ const SignIn = () => {
 
   return (
     <>
-      <Box sx={{ height: "100vh", overflow: "hidden" }}>
+      <Box sx={{ height: "100vh",width:"100%", overflow: "hidden" ,position:"absolute",top:"0",left:"0"}}>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -327,7 +327,10 @@ const SignIn = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Footer/>
+      {/* <Footer/> */}
+      <Stack sx={{backgroundColor:"#242A56",position:"absolute",bottom:"0",width:"100%",padding:"15px",alignItems:"center"}}>
+            <Typography variant="body1" color="white"><a href="https://www.fluxmedia.in/" target="_blank">Created By: Flux Media</a></Typography>
+        </Stack>
     </>
   );
 };
