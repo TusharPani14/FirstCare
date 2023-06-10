@@ -221,7 +221,7 @@ export default function CreateStock() {
                 <TextField
                   label="Location"
                   value={location}
-                  sx={{ width: { lg: 500, xs: 450 } }}
+                  sx={{ width: { lg: 400, xs: 250 } }}
                   onChange={(e) => setLocation(e.target.value)}
                 />
               </Stack>
