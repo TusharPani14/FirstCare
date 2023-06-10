@@ -34,10 +34,9 @@ const StockList = () => {
   const [showloc,setShowloc] = useState("Bhubaneswar")
   let NewData = Data;
   let userInfo;
-  StockSortAlgo(sortMethod, stockList, NewData,showloc);
   // sorting function end
   
-
+  
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -47,7 +46,7 @@ const StockList = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-
+  
   const fetchStocks = async () => {
     setLoading(true);
     setStockList(() => []);
@@ -94,7 +93,7 @@ const StockList = () => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) navigate("/");
   });
-
+  
   useEffect(() => {
     fetchStocks();
   }, []);
@@ -116,7 +115,7 @@ let newStockList=[];
   });
   // console.log(newStockList)
 // sort by location
-
+StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
 
 
   return (
@@ -221,6 +220,7 @@ let newStockList=[];
           <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
           <MenuItem value={"Puri"}>Puri</MenuItem>
           <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
+          <MenuItem value={"new2"}>new2</MenuItem>
         </Select>
       </FormControl>
               <Menu
