@@ -7,7 +7,7 @@ import {
   Select,
   Stack,
   Typography,
-  FormControl, InputLabel
+  FormControl, InputLabel,TextField,Autocomplete
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -29,13 +29,14 @@ const StockList = () => {
   const [sortMethod, setSortMethod] = useState("");
   const [loading, setLoading] = useState(false);
   const [stockList, setStockList] = useState(() => []);
+  // const [newStockList, setNewStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [showloc,setShowloc] = useState("Bhubaneswar")
+  const [showloc,setShowloc] = useState("All")
   let NewData = Data;
   let userInfo;
-  StockSortAlgo(sortMethod, stockList, NewData,showloc);
   // sorting function end
   
+  const options =["Bhubaneswar","Cuttack","Puri"]
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -45,7 +46,7 @@ const StockList = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-
+  
   const fetchStocks = async () => {
     setLoading(true);
     setStockList(() => []);
@@ -61,8 +62,11 @@ const StockList = () => {
         Array.prototype.forEach.call(stocksList, (d) => {
           // Add Row
           setStockList((prevRows) => [...prevRows, myFunction(d)]);
+          //Failed To add location
+          // setLocation((prev) => [...prev, Location(d)]);
         });
       }
+  
       function myFunction(stockItem) {
         return {
           id: stockItem._id,
@@ -92,7 +96,7 @@ const StockList = () => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) navigate("/");
   });
-
+  
   useEffect(() => {
     fetchStocks();
   }, []);
@@ -102,6 +106,33 @@ const StockList = () => {
       return;
     }
   };
+  // sort by location
+
+    let Location =[]
+  Location[0] = "All"
+  let j=1;
+  stockList.forEach(element => {
+      Location[j]=element.location;
+      j++;
+  });
+  let updateLocation = [...new Set(Location)];
+
+let newStockList=[];
+  let i = 0;
+  stockList.forEach(element => {
+    if(showloc==="All"){
+      newStockList[i]=stockList[i];
+      i++;
+    }
+   else if(element.location === showloc){
+      newStockList[i]=element;
+      i++;
+    }
+  });
+
+  // console.log(newStockList)
+// sort by location
+StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
 
 
   return (
@@ -194,20 +225,15 @@ const StockList = () => {
                   sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
                 />
               </CustYellowButton>
-              <FormControl sx={{width:200}}>
-        <InputLabel id="demo-simple-select-label">Location</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={showloc}
-          label="Location"
-          onChange={(e)=>setShowloc(e.target.value)}
-        >
-          <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
-          <MenuItem value={"Puri"}>Puri</MenuItem>
-          <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
-        </Select>
-      </FormControl>
+                   <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={updateLocation}
+      value={showloc}
+      onChange={(e,v) => setShowloc(v)}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params}  onChange={({ target }) => setShowloc(target.value)} label="Location" />}
+    />
               <Menu
                 sx={{ padding: "100px" }}
                 id="sort"
@@ -251,12 +277,12 @@ const StockList = () => {
                 >
                   Batch
                 </MenuItem>
-                <MenuItem
-                  onClick={() => setSortMethod("location")}
-                  sx={{ textDecoration: "none" }}
-                >
-                  Location
-                </MenuItem>
+                {/* <MenuItem */}
+                  {/* onClick={() => setSortMethod("location")} */}
+                  {/* sx={{ textDecoration: "none" }} */}
+                {/* > */}
+                  {/* Location */}
+                {/* </MenuItem> */}
                 {/* </Link> */}
               </Menu>
             </Stack>
@@ -270,7 +296,7 @@ const StockList = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          {stockList[0] != null && <StockTable DataArray={stockList} />}
+          {stockList[0] != null && <StockTable DataArray={newStockList} />}
         </Box>
       )}
       {/* <Footer/> */}

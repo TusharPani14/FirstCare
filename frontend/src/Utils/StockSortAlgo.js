@@ -1,4 +1,4 @@
-const StockSortAlgo = (sortMethod,Data,NewData,showloc) => {
+const StockSortAlgo = (sortMethod,newStockList,Data,NewData) => {
 
     switch (sortMethod) {
         case "name":
@@ -18,25 +18,26 @@ const StockSortAlgo = (sortMethod,Data,NewData,showloc) => {
         //   
         case "date":
           NewData = Data.sort((a, b) => {
-            let da = new Date(a.expiry),
-              db = new Date(b.expiry);
+            const da = new Date(a.expiry);
+            const  db = new Date(b.expiry);
             return da - db;
           });
+         
           break;
     // 
-    case "location":
-      let data=[]
-      let i=0;
-     NewData = Data.map((a) => {
-      if(a.location===showloc){
-        data[i]=a
-        i+=1;
-      }
-      return data
-     });
-      console.log(data)
-      break;
-    //
+    // case "location":
+    //   let data=[]
+    //   let i=0;
+    //  NewData = Data.map((a) => {
+    //   if(a.location===showloc){
+    //     data[i]=a
+    //     i+=1;
+    //   }
+    //   return data
+    //  });
+    //   console.log(data)
+    //   break;
+    // //
         case "batch":
           NewData = Data.sort((a, b) => {
             let fa = a.batch.toLowerCase(),
@@ -64,5 +65,6 @@ const StockSortAlgo = (sortMethod,Data,NewData,showloc) => {
       }
 
 }
+
 
 export default StockSortAlgo

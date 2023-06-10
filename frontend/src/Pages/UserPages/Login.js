@@ -3,7 +3,7 @@ import { Backdrop, Box, Button, CircularProgress, Stack, TextField, Typography }
 
 import Img from "../../Assets/loginImg.png";
 import Logo from "../../Assets/logo.png";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -82,7 +82,7 @@ const Login = () => {
 
   return (
     <>
-      <Box sx={{ height: "100vh", overflow: "hidden" }}>
+      <Box sx={{ height: "100vh",width:"100%", overflow: "hidden" ,position:"absolute",top:"0",left:"0"}}>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -262,7 +262,7 @@ const Login = () => {
                 padding: { xs: "7px 15px", sm: "9px 24px", xl: "9px 35px" },
                 width:{xs:"91%",md:"92%",lg:"100%"},
                 fontWeight: "600",
-                borderRadius: "40px",
+                // borderRadius: "40px",
                 letterSpacing: "-0.008e",
                 textTransform: "capitalize",
                 borderRadius:"10px",
@@ -315,7 +315,10 @@ const Login = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Footer/>
+       {/* <Footer/> */}
+       <Stack sx={{backgroundColor:"#242A56",position:"absolute",bottom:"0",width:"100%",padding:"15px",alignItems:"center"}}>
+            <Typography variant="body1" color="white"><a href="https://www.fluxmedia.in/" target="_blank">Created By: Flux Media</a></Typography>
+        </Stack>
     </>
   );
 };

@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Bills = require("../models/billModel");
+const Stocks = require("../models/stocksModel");
 
 const createBills = asyncHandler(async (req, res) => {
   try {
@@ -13,16 +14,17 @@ const createBills = asyncHandler(async (req, res) => {
       !total
     ) {
       res.status(400);
-      throw new Error("Please Enter all the Feilds");
+      throw new Error("Please enter all the fields");
     }
-    const billRecord = await Bills.find({ invoiceNo }).then((result) => {
-      if (result[0]) {
-        res.status(501);
-        throw new Error(
-          "Bill already exists! Select a different Invoice Number"
-        );
-      }
-    });
+
+    // Check if the bill already exists
+    const billRecord = await Bills.findOne({ invoiceNo });
+    if (billRecord) {
+      res.status(501);
+      throw new Error("Bill already exists! Select a different Invoice Number");
+    }
+
+    // Create the bill
     const bill = await Bills.create({
       invoiceNo,
       name,
@@ -31,16 +33,38 @@ const createBills = asyncHandler(async (req, res) => {
       products,
       total,
     });
+
+    // Extract the quantity for each product and reduce it from the stocks table
+    for (const product of products) {
+      const { pname, quantity } = product;
+
+      // Reduce the quantity from the stocks table
+      const stock = await Stocks.findOne({ productName: pname });
+      if (!stock) {
+        res.status(400);
+        throw new Error(`Product '${pname}' is not available in stock`);
+      }
+      
+      if (stock) {
+        if (stock.quantity < quantity) {
+          res.status(400);
+          throw new Error(`Insufficient quantity in stock for product: ${name}`);
+        }
+        stock.quantity -= Number(quantity);
+        await stock.save();
+      }
+    }
+
     console.log(bill);
     if (bill) {
       res.status(201).json({
-        message: "Bill Created successfully",
+        message: "Bill created successfully",
       });
     }
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.log(error);
     res.status(400);
-    throw new Error("Server error: Bill creation failed");
+    throw new Error(error.message);
   }
 });
 
@@ -56,7 +80,7 @@ const getBills = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Bill fetching unsuccessful");
+    throw new Error(e.message);
   }
 });
 

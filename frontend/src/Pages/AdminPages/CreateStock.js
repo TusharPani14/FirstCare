@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../UserPages/Footer";
+// import Footer from "../UserPages/Footer";
 
 const showToastMessage = () => {
   toast.warning("Don't leave the Date fields Empty !", {
@@ -61,9 +61,10 @@ export default function CreateStock() {
   ];
 
   function convert(str) {
+   
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2);
-    return [mnth, date.getFullYear() % 100].join("/");
+    return [mnth,date.getDate(),date.getFullYear()].join("/");
   }
   useEffect(() => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -76,8 +77,8 @@ export default function CreateStock() {
       return;
     }
     setLoading(true);
-    const newDate = convert(date.$d);
-    const expiryDate = convert(expiry.$d);
+    const newDate = new Date(date).toLocaleDateString()
+    const expiryDate = new Date(expiry).toLocaleDateString();
     try {
       const config = {
         headers: {
@@ -215,21 +216,14 @@ export default function CreateStock() {
                     value={expiry}
                     onChange={(neWValue) => setExpiry(neWValue)}
                   />
+                  
                 </LocalizationProvider>
-                  <FormControl sx={{width:400}}>
-          <InputLabel id="demo-simple-select-label">Location</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={location}
-            label="Location"
-            onChange={(e)=>setLocation(e.target.value)}
-          >
-            <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
-            <MenuItem value={"Puri"}>Puri</MenuItem>
-            <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
-          </Select>
-        </FormControl>
+                <TextField
+                  label="Location"
+                  value={location}
+                  sx={{ width: { lg: 400, xs: 250 } }}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
               </Stack>
             </Stack>
             <Stack gap="20px">

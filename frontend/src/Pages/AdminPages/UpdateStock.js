@@ -287,20 +287,12 @@ const handleChangeRowsPerPage = (event) => {
                   onChange={(neWValue) => setExpiry(neWValue)}
                 />
               </LocalizationProvider>
-              <FormControl sx={{width:400}}>
-        <InputLabel id="demo-simple-select-label">Location</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={location}
-          label="Location"
-          onChange={(e)=>setLocation(e.target.value)}
-        >
-          <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
-          <MenuItem value={"Puri"}>Puri</MenuItem>
-          <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
-        </Select>
-      </FormControl>
+              <TextField
+                  label="Location"
+                  value={location}
+                  sx={{ width: { lg: 400, xs: 250 } }}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
             </Stack>
             <Stack
               sx={{ flexDirection: { xs: "coloumn", sm: "row" }, gap: "25px" }}

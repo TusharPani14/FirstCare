@@ -158,7 +158,7 @@ const updateStocks = asyncHandler(async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400);
-    throw new Error("Server error: Product updation unsuccessful");
+    throw new Error(e.message);
   }
 });
 
