@@ -20,12 +20,12 @@ const ProfitPage = () => {
     dateVal2 = `${dateVal.getFullYear()}-${
       dateVal.getMonth() + 1
     }-${dateVal.getDate()}`;
-    // console.log(dateVal2);
+    console.log(dateVal2);
     sortByDate();
   };
   var ddate = 0;
   var ddate2 = 0;
-  const [DateSortedArray2, setDateSortedArray2] = useState(ProfitData);
+  const [DateSortedArray2, setDateSortedArray2] = useState(profitList);
   var DateSortedArray = profitList;
   const sortByDate = () => {
     DateSortedArray = [];
@@ -38,9 +38,10 @@ const ProfitPage = () => {
         DateSortedArray.push(element);
       }
     });
-    setProfitList(DateSortedArray);
-    // console.log(DateSortedArray)
+    // setProfitList(DateSortedArray);
     // console.log(DateSortedArray2)
+    // console.log(DateSortedArray)
+    setDateSortedArray2(DateSortedArray)
   };
   // sortByDate();
 
@@ -117,7 +118,7 @@ const ProfitPage = () => {
     <>
       <Box>
         <AdminHeader />
-        <ProfitTable DataArray={profitList} handleDate={handleDate} />
+        <ProfitTable DataArray={DateSortedArray2} handleDate={handleDate} />
       </Box>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
