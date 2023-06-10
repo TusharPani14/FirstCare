@@ -31,7 +31,7 @@ const StockList = () => {
   const [stockList, setStockList] = useState(() => []);
   // const [newStockList, setNewStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [showloc,setShowloc] = useState("Bhubaneswar")
+  const [showloc,setShowloc] = useState("")
   let NewData = Data;
   let userInfo;
   // sorting function end
@@ -208,21 +208,12 @@ StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
                   sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
                 />
               </CustYellowButton>
-              <FormControl sx={{width:200}}>
-        <InputLabel id="demo-simple-select-label">Location</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={showloc}
-          label="Location"
-          onChange={(e)=>setShowloc(e.target.value)}
-        >
-          <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
-          <MenuItem value={"Puri"}>Puri</MenuItem>
-          <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
-          <MenuItem value={"new2"}>new2</MenuItem>
-        </Select>
-      </FormControl>
+              <TextField
+                  label="Location"
+                  value={showloc}
+                  sx={{ width: { lg: 500, xs: 450 } }}
+                  onChange={(e) => setShowloc(e.target.value)}
+                />
               <Menu
                 sx={{ padding: "100px" }}
                 id="sort"
