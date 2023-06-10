@@ -12,38 +12,6 @@ const ProfitPage = () => {
   const [profitList, setProfitList] = useState(() => []);
   const [loading, setLoading] = useState(false);
 
-  var dateVal = 0;
-  var dateVal2 = 0;
-  var userInfo;
-  const handleDate = (e) => {
-    dateVal = new Date(e.target.value);
-    dateVal2 = `${dateVal.getFullYear()}-${
-      dateVal.getMonth() + 1
-    }-${dateVal.getDate()}`;
-    console.log(dateVal2);
-    sortByDate();
-  };
-  var ddate = 0;
-  var ddate2 = 0;
-  const [DateSortedArray2, setDateSortedArray2] = useState(profitList);
-  var DateSortedArray = profitList;
-  const sortByDate = () => {
-    DateSortedArray = [];
-    profitList.forEach((element) => {
-      ddate = new Date(element.date);
-      ddate2 = `${ddate.getFullYear()}-${
-        ddate.getMonth() + 1
-      }-${ddate.getDate()}`;
-      if (ddate2 === dateVal2) {
-        DateSortedArray.push(element);
-      }
-    });
-    // setProfitList(DateSortedArray);
-    // console.log(DateSortedArray2)
-    // console.log(DateSortedArray)
-    setDateSortedArray2(DateSortedArray)
-  };
-  // sortByDate();
 
   const fetchProfitList = async () => {
     setLoading(true);
@@ -65,6 +33,7 @@ const ProfitPage = () => {
         );
 
         setProfitList(updatedProfitList);
+        setDateSortedArray2(updatedProfitList);
       }
 
       setLoading(false);
@@ -113,6 +82,41 @@ const ProfitPage = () => {
       return;
     }
   };
+
+
+  
+  var dateVal = 0;
+  var dateVal2 = 0;
+  var userInfo;
+  const handleDate = (e) => {
+    dateVal = new Date(e.target.value);
+    dateVal2 = `${dateVal.getFullYear()}-${
+      dateVal.getMonth() + 1
+    }-${dateVal.getDate()}`;
+    console.log(dateVal2);
+    sortByDate();
+  };
+  var ddate = 0;
+  var ddate2 = 0;
+  const [DateSortedArray2, setDateSortedArray2] = useState([]);
+  var DateSortedArray = profitList;
+  const sortByDate = () => {
+    DateSortedArray = [];
+    profitList.forEach((element) => {
+      ddate = new Date(element.date);
+      ddate2 = `${ddate.getFullYear()}-${
+        ddate.getMonth() + 1
+      }-${ddate.getDate()}`;
+      if (ddate2 === dateVal2) {
+        DateSortedArray.push(element);
+      }
+    });
+    // setProfitList(DateSortedArray);
+    // console.log(DateSortedArray2)
+    // console.log(DateSortedArray)
+    setDateSortedArray2(DateSortedArray)
+  };
+  // sortByDate();
 
   return (
     <>
