@@ -31,7 +31,7 @@ const StockList = () => {
   const [stockList, setStockList] = useState(() => []);
   // const [newStockList, setNewStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [showloc,setShowloc] = useState("Bhubaneswar")
+  const [showloc,setShowloc] = useState("All")
   let NewData = Data;
   let userInfo;
   // sorting function end
@@ -66,9 +66,7 @@ const StockList = () => {
           // setLocation((prev) => [...prev, Location(d)]);
         });
       }
-     function Location(stockItem){
-      return { location: stockItem.location}
-     }
+  
       function myFunction(stockItem) {
         return {
           id: stockItem._id,
@@ -110,21 +108,28 @@ const StockList = () => {
   };
   // sort by location
 
-let newStockList=[];
-  let i = 0;
-  stockList.forEach(element => {
-    if(element.location === showloc){
-      newStockList[i]=element;
-      i++;
-    }
-  });
-  let Location =[]
-  let j=0;
+    let Location =[]
+  Location[0] = "All"
+  let j=1;
   stockList.forEach(element => {
       Location[j]=element.location;
       j++;
   });
   let updateLocation = [...new Set(Location)];
+
+let newStockList=[];
+  let i = 0;
+  stockList.forEach(element => {
+    if(showloc==="All"){
+      newStockList[i]=stockList[i];
+      i++;
+    }
+   else if(element.location === showloc){
+      newStockList[i]=element;
+      i++;
+    }
+  });
+
   // console.log(newStockList)
 // sort by location
 StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
@@ -223,12 +228,11 @@ StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
                    <Autocomplete
       disablePortal
       id="combo-box-demo"
-      options={updateLocation }
-      defaultValue={options[0]}
+      options={updateLocation}
       value={showloc}
       onChange={(e,v) => setShowloc(v)}
       sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params}  onChange={({ target }) => setShowloc(target.value)} label="Medicine Name" />}
+      renderInput={(params) => <TextField {...params}  onChange={({ target }) => setShowloc(target.value)} label="Location" />}
     />
               <Menu
                 sx={{ padding: "100px" }}
