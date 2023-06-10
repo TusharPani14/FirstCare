@@ -1,4 +1,4 @@
-const StockSortAlgo = (sortMethod,Data,NewData) => {
+const StockSortAlgo = (sortMethod,newStockList,Data,NewData) => {
 
     switch (sortMethod) {
         case "name":
@@ -18,10 +18,11 @@ const StockSortAlgo = (sortMethod,Data,NewData) => {
         //   
         case "date":
           NewData = Data.sort((a, b) => {
-            let da = new Date(a.date),
-              db = new Date(b.date);
+            const da = new Date(a.expiry);
+            const  db = new Date(b.expiry);
             return da - db;
           });
+         
           break;
     // 
     // case "location":
