@@ -218,21 +218,12 @@ export default function CreateStock() {
                   />
                   
                 </LocalizationProvider>
-                  <FormControl sx={{width:400}}>
-          <InputLabel id="demo-simple-select-label">Location</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={location}
-            label="Location"
-            onChange={(e)=>setLocation(e.target.value)}
-          >
-            <MenuItem value={"Bhubaneswar"}>Bhubaneswar</MenuItem>
-            <MenuItem value={"Puri"}>Puri</MenuItem>
-            <MenuItem value={"Cuttack"}>Cuttack</MenuItem>
-            <MenuItem value={"new2"}>new2</MenuItem>
-          </Select>
-        </FormControl>
+                <TextField
+                  label="Location"
+                  value={location}
+                  sx={{ width: { lg: 500, xs: 450 } }}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
               </Stack>
             </Stack>
             <Stack gap="20px">
