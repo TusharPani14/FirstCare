@@ -285,6 +285,9 @@ const SignIn = () => {
             >
               Sign In
             </Button>
+            <Link to="#">
+            <Typography variant="body1" color="white" sx={{textDecoration:"underline"}}>Forgot Password?</Typography>
+            </Link>
           </Stack>
 
           <Box
