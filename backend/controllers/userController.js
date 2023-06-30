@@ -81,6 +81,54 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const forgetPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  const token = generateToken();
+  if (user) {
+    const data = await User.updateOne({ email }, { $set: { token: token } });
+    sendResetPassword(user.name, user.email, token);
+    res
+      .status(200)
+      .send({ success: true, message: "Please check your email!" });
+  } else {
+    res.status(401);
+    throw new Error("This email does not exist");
+  }
+});
+
+const sendResetPassword = async (name, email, token) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.EMAILUSER,
+        pass: process.env.EMAILPASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAILUSER,
+      to: email,
+      subject: "For Reset Password",
+      html: `<p> Hi ${name}, Please copy the link and <a href="http://localhost:5000/user/reset-password?token=${token}
+      "> reset your password </a></p>`,
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Mail has been sent:- ", info.response);
+      }
+    });
+  } catch (error) {
+    res.status(400).send({ success: false, message: error.message });
+  }
+};
+
 const getUsers = asyncHandler(async (req, res) => {
   try {
     const user = await User.find({});
@@ -113,4 +161,4 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createUser, authUser, getUsers, updateUser ,deleteUser};
+module.exports = { createUser, authUser, getUsers, updateUser, deleteUser ,sendResetPassword};

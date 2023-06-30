@@ -6,7 +6,8 @@ import {
   Stack,
   TextField,
   Typography,
-  Button
+  Button,
+  Modal
 } from "@mui/material";
 
 import Img from "../../Assets/loginImg.png";
@@ -35,6 +36,10 @@ const SignIn = () => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose1 = () => setOpen(false);
+  const [rmail,setRmail] = useState("")
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -93,6 +98,10 @@ const SignIn = () => {
     setOpenSuccess(false);
     setOpenError(false);
   };
+  function dataRecover(){
+    console.log(rmail)
+    handleClose1()
+  }
 
   return (
     <>
@@ -285,6 +294,9 @@ const SignIn = () => {
             >
               Sign In
             </Button>
+            <Link to="#">
+            <Typography variant="body1" color="white" sx={{textDecoration:"underline"}} onClick={handleOpen} >Forgot Password?</Typography>
+            </Link>
           </Stack>
 
           <Box
@@ -331,6 +343,50 @@ const SignIn = () => {
       <Stack sx={{backgroundColor:"#242A56",position:"absolute",bottom:"0",width:"100%",padding:"15px",alignItems:"center"}}>
             <Typography variant="body1" color="white"><a href="https://www.fluxmedia.in/" target="_blank">Created By: Flux Media</a></Typography>
         </Stack>
+        <Modal
+          open={open}
+          onClose={handleClose1}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              mb="15px"
+            >
+             Enter your Registered Email Address
+            </Typography>
+            <Stack direction="row" gap="10px">
+             <TextField
+             value={rmail}
+             onChange={(e)=>setRmail(e.target.value)}
+             variant="outlined"
+             label="Registered Email"
+             />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={dataRecover}
+              >
+                Confirm
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
     </>
   );
 };

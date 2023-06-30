@@ -16,6 +16,7 @@ const createStocks = asyncHandler(async (req, res) => {
       mfg,
       batch,
       quantity,
+      totalQuantity,
       free,
     } = req.body;
     if (
@@ -30,7 +31,8 @@ const createStocks = asyncHandler(async (req, res) => {
       !location ||
       !mfg ||
       !batch ||
-      !quantity
+      !quantity||
+      !totalQuantity
     ) {
       res.status(400);
       throw new Error("Please Enter all the Feilds");
@@ -48,6 +50,7 @@ const createStocks = asyncHandler(async (req, res) => {
         mfg,
         batch,
         quantity,
+        totalQuantity,
         free,
       });
       if (stock) {
@@ -112,6 +115,7 @@ const updateStocks = asyncHandler(async (req, res) => {
       mfg,
       batch,
       quantity,
+      totalQuantity,
       free,
     } = req.body;
     if (
@@ -126,6 +130,7 @@ const updateStocks = asyncHandler(async (req, res) => {
       !mfg &&
       !batch &&
       !quantity &&
+      !totalQuantity &&
       !free
     ) {
       res.status(400);
@@ -146,6 +151,7 @@ const updateStocks = asyncHandler(async (req, res) => {
           mfg,
           batch,
           quantity,
+          totalQuantity,
           free,
         }
       );

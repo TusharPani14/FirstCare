@@ -1,11 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const Bills = require("../models/billModel");
 const Stocks = require("../models/stocksModel");
+const User = require("../models/userModel");
 
 const createBills = asyncHandler(async (req, res) => {
   try {
-    const { invoiceNo, name, invoiceDate, phoneNo, products, total } = req.body;
+    const { userId, invoiceNo, name, invoiceDate, phoneNo, products, total } =
+      req.body;
     if (
+      !userId ||
       !invoiceNo ||
       !name ||
       !invoiceDate ||
@@ -17,22 +20,19 @@ const createBills = asyncHandler(async (req, res) => {
       throw new Error("Please enter all the fields");
     }
 
+    // Check if the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
     // Check if the bill already exists
     const billRecord = await Bills.findOne({ invoiceNo });
     if (billRecord) {
       res.status(501);
       throw new Error("Bill already exists! Select a different Invoice Number");
     }
-
-    // Create the bill
-    const bill = await Bills.create({
-      invoiceNo,
-      name,
-      invoiceDate,
-      phoneNo,
-      products,
-      total,
-    });
 
     // Extract the quantity for each product and reduce it from the stocks table
     for (const product of products) {
@@ -44,16 +44,39 @@ const createBills = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error(`Product '${pname}' is not available in stock`);
       }
-      
+
       if (stock) {
-        if (stock.quantity < quantity) {
+        if (stock.totalQuantity < quantity) {
           res.status(400);
-          throw new Error(`Insufficient quantity in stock for product: ${name}`);
+          throw new Error(
+            `Insufficient quantity in stock for product: ${name}`
+          );
         }
-        stock.quantity -= Number(quantity);
+        stock.totalQuantity -= Number(quantity);
+        const remainingQuantity =
+          Number(stock.pack) * stock.quantity - stock.totalQuantity;
+        const newPack =
+          Number(stock.pack) - Math.floor(remainingQuantity / stock.quantity);
+        stock.pack = newPack;
         await stock.save();
       }
     }
+
+    // Create the bill
+    const bill = await Bills.create({
+      invoiceNo,
+      name,
+      invoiceDate,
+      phoneNo,
+      products,
+      total,
+      user: userId,
+    });
+
+    user.bills.push(bill._id);
+    user.fullBill.push(bill);
+    console.log(user);
+    await user.save();
 
     console.log(bill);
     if (bill) {
