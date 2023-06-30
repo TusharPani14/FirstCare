@@ -14,6 +14,7 @@ const stocksSchema = mongoose.Schema(
     mfg: { type: String, required: true },
     batch: { type: String, required: true },
     quantity: { type: Number, required: true },
+    totalQuantity: { type: Number, required: true },
     free: { type: Number, required: true, default: 0 },
   },
   {

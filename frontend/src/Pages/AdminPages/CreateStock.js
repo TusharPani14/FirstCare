@@ -10,7 +10,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Select
+  Select,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
@@ -61,10 +61,9 @@ export default function CreateStock() {
   ];
 
   function convert(str) {
-   
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2);
-    return [mnth,date.getDate(),date.getFullYear()].join("/");
+    return [mnth, date.getDate(), date.getFullYear()].join("/");
   }
   useEffect(() => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -77,7 +76,7 @@ export default function CreateStock() {
       return;
     }
     setLoading(true);
-    const newDate = new Date(date).toLocaleDateString()
+    const newDate = new Date(date).toLocaleDateString();
     const expiryDate = new Date(expiry).toLocaleDateString();
     try {
       const config = {
@@ -100,7 +99,8 @@ export default function CreateStock() {
           location,
           mfg,
           batch,
-          quantity,
+          quantity: quantity,
+          totalQuantity:quantity * Number(pack),
           free,
         },
         config
@@ -216,7 +216,6 @@ export default function CreateStock() {
                     value={expiry}
                     onChange={(neWValue) => setExpiry(neWValue)}
                   />
-                  
                 </LocalizationProvider>
                 <TextField
                   label="Location"
