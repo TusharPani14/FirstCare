@@ -160,7 +160,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
     setRate(row.rate);
     setPurchaseRate(row.purchaseRate);
     setHsn(row.hsn);
-    setDate(row.date);
+    // setDate(row.date);
     setLocation(row.location);
     setSaltName(row.saltName);
     setMfg(row.mfg);
