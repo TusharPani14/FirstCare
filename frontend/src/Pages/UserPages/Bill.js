@@ -63,6 +63,7 @@ export default function Bill() {
       const billData = await axios.post(
         "/bill/create",
         {
+          userId:userInfo._id,
           invoiceNo: invnum,
           name: username,
           invoiceDate: newInvoiceDate,
