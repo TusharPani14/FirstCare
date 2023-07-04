@@ -1,7 +1,71 @@
+const mongoose = require("mongoose");
 const asyncHandler = require("express-async-handler");
-const Bills = require("../models/billModel");
-const Stocks = require("../models/stocksModel");
-const User = require("../models/userModel");
+const createBillsModel = require("../models/billModel");
+const createStocksModel = require("../models/stocksModel");
+const createUserModel = require("../models/userModel");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const connections = [
+  { name: "Connection1", uri: process.env.MONGO_URI },
+  { name: "Connection2", uri: process.env.MONGO_URI2 },
+];
+
+// Create connections
+const connectionPromises = connections.map((connection) => {
+  if (!connection.uri) {
+    throw new Error(`Missing MongoDB URI for connection: ${connection.name}`);
+  }
+  return mongoose.createConnection(connection.uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+});
+
+let Bill1;
+let Bill2;
+
+let User1;
+let User2;
+
+let Stock1;
+let Stock2;
+
+// Wait for all connections to be established
+Promise.all(connectionPromises)
+  .then((connectionInstances) => {
+    // Create bill models for each connection
+    const billModels = connectionInstances.map((connection, index) => ({
+      name: connections[index].name,
+      model: createBillsModel(connection),
+    }));
+
+    const userModels = connectionInstances.map((connection, index) => ({
+      name: connections[index].name,
+      model: createUserModel(connection),
+    }));
+
+    const stockModels = connectionInstances.map((connection, index) => ({
+      name: connections[index].name,
+      model: createStocksModel(connection),
+    }));
+
+    // Example usage
+    Bill1 = billModels.find((model) => model.name === "Connection1").model;
+    Bill2 = billModels.find((model) => model.name === "Connection2").model;
+
+    // Example usage
+    User1 = userModels.find((model) => model.name === "Connection1").model;
+    User2 = userModels.find((model) => model.name === "Connection2").model;
+
+    // Example usage
+    Stock1 = stockModels.find((model) => model.name === "Connection1").model;
+    Stock2 = stockModels.find((model) => model.name === "Connection2").model;
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+    // Handle the error
+  });
 
 const createBills = asyncHandler(async (req, res) => {
   try {
@@ -20,15 +84,23 @@ const createBills = asyncHandler(async (req, res) => {
       throw new Error("Please enter all the fields");
     }
 
-    // Check if the user exists
-    const user = await User.findById(userId);
+    // Check if the user exists in User1
+    let user = await User1.findOne({ _id: userId });
+    let billModel = Bill1;
+
+    // If user is not found in User1, check in User2
+    if (!user) {
+      user = await User2.findOne({ _id: userId });
+      billModel = Bill2;
+    }
+
     if (!user) {
       res.status(404);
       throw new Error("User not found");
     }
 
     // Check if the bill already exists
-    const billRecord = await Bills.findOne({ invoiceNo });
+    const billRecord = await billModel.findOne({ invoiceNo });
     if (billRecord) {
       res.status(501);
       throw new Error("Bill already exists! Select a different Invoice Number");
@@ -38,32 +110,33 @@ const createBills = asyncHandler(async (req, res) => {
     for (const product of products) {
       const { pname, quantity } = product;
 
+      let stockModel = Stock1;
+      if (user.location === "Sorada") {
+        stockModel = Stock2;
+      }
+
       // Reduce the quantity from the stocks table
-      const stock = await Stocks.findOne({ productName: pname });
+      const stock = await stockModel.findOne({ productName: pname });
       if (!stock) {
         res.status(400);
         throw new Error(`Product '${pname}' is not available in stock`);
       }
 
-      if (stock) {
-        if (stock.totalQuantity < quantity) {
-          res.status(400);
-          throw new Error(
-            `Insufficient quantity in stock for product: ${name}`
-          );
-        }
-        stock.totalQuantity -= Number(quantity);
-        const remainingQuantity =
-          Number(stock.pack) * stock.quantity - stock.totalQuantity;
-        const newPack =
-          Number(stock.pack) - Math.floor(remainingQuantity / stock.quantity);
-        stock.pack = newPack;
-        await stock.save();
+      if (stock.totalQuantity < quantity) {
+        res.status(400);
+        throw new Error(`Insufficient quantity in stock for product: ${pname}`);
       }
+
+      stock.totalQuantity -= quantity;
+      const remainingQuantity =
+        stock.pack * stock.quantity - stock.totalQuantity;
+      const newPack = Math.floor(remainingQuantity / stock.quantity);
+      stock.pack = newPack;
+      await stock.save();
     }
 
     // Create the bill
-    const bill = await Bills.create({
+    const bill = await billModel.create({
       invoiceNo,
       name,
       invoiceDate,
@@ -75,15 +148,11 @@ const createBills = asyncHandler(async (req, res) => {
 
     user.bills.push(bill._id);
     user.fullBill.push(bill);
-    console.log(user);
     await user.save();
 
-    console.log(bill);
-    if (bill) {
-      res.status(201).json({
-        message: "Bill created successfully",
-      });
-    }
+    res.status(201).json({
+      message: "Bill created successfully",
+    });
   } catch (error) {
     console.log(error);
     res.status(400);
@@ -93,12 +162,19 @@ const createBills = asyncHandler(async (req, res) => {
 
 const getBills = asyncHandler(async (req, res) => {
   try {
-    const bill = await Bills.find({});
-    if (bill) {
+    const bills1 = await Bill1.find({});
+    const bills2 = await Bill2.find({});
+
+    const billList = [...bills1, ...bills2];
+
+    if (billList.length > 0) {
       res.status(201).json({
-        message: "Bill fetched successfully",
-        billList: bill,
+        message: "Bills fetched successfully",
+        billList: billList,
       });
+    } else {
+      res.status(404);
+      throw new Error("No bills found");
     }
   } catch (e) {
     console.log(e);

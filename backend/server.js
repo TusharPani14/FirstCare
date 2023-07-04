@@ -10,8 +10,12 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 var cors = require('cors')
 
 dotenv.config();
+const connections = [
+  { name: "Connection1", uri: process.env.MONGO_URI },
+  { name: "Connection2", uri: process.env.MONGO_URI2 },
+];
 
-connectDB();
+connectDB(connections);
 const app = express();
 
 app.use(cors())
