@@ -16,6 +16,10 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Select,
   Modal,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -219,6 +223,24 @@ export default function CreateUser() {
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
           />
+          <FormControl fullWidth>
+
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value='adakata'
+              label="Location"
+              placeholder="Location"
+              sx={{ '& label': { color: 'red' } }}
+            // onChange={(e) => setLocation(e.target.value)}
+            >
+              <MenuItem value='adakata'>Adakata</MenuItem>
+              <MenuItem value='sorada'>Sorada</MenuItem>
+              <MenuItem value='all'>All</MenuItem>
+
+            </Select>
+          </FormControl>
           <Button variant="contained" onClick={createUser}>
             Create User
           </Button>
@@ -237,6 +259,24 @@ export default function CreateUser() {
             value={pwdupd}
             onChange={(e) => setPwdupd(e.target.value)}
           />
+          <FormControl fullWidth>
+
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value='adakata'
+              label="Location"
+              placeholder="Location"
+              sx={{ '& label': { color: 'red' } }}
+            // onChange={(e) => setLocation(e.target.value)}
+            >
+              <MenuItem value='adakata'>Adakata</MenuItem>
+              <MenuItem value='sorada'>Sorada</MenuItem>
+              <MenuItem value='all'>All</MenuItem>
+
+            </Select>
+          </FormControl>
           <Button variant="contained" onClick={updateButton}>
             update User
           </Button>
@@ -267,7 +307,8 @@ export default function CreateUser() {
                   <TableCell>
                     <IconButton onClick={() => {
                       setId(n.id)
-                      setOpen(true)}}>
+                      setOpen(true)
+                    }}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
