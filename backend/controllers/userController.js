@@ -203,27 +203,22 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   try {
-    const { email_phoneNo, password, location } = req.body;
+    const { email_phoneNo, password } = req.body;
 
-    let user;
-    if (location === "Adakata") {
-      user = await User1.findOne({ email_phoneNo });
-    } else if (location === "Sorada") {
-      user = await User2.findOne({ email_phoneNo });
-    } else {
-      user = await Promise.all([
-        User1.findOne({ email_phoneNo }),
-        User2.findOne({ email_phoneNo }),
-      ]);
-    }
+    const user = await Promise.all([
+      User1.findOne({ email_phoneNo }),
+      User2.findOne({ email_phoneNo }),
+    ]);
 
-    if (user) {
-      if (user.password === password) {
+    const foundUser = user.find((u) => u !== null);
+
+    if (foundUser) {
+      if (foundUser.password === password) {
         res.json({
-          _id: user._id,
-          email_phoneNo: user.email_phoneNo,
-          location: user.location,
-          token: generateToken(user._id),
+          _id: foundUser._id,
+          email_phoneNo: foundUser.email_phoneNo,
+          location: foundUser.location,
+          token: generateToken(foundUser._id),
         });
       } else {
         res.status(501);
