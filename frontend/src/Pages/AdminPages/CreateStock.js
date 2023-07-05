@@ -100,7 +100,7 @@ export default function CreateStock() {
           mfg,
           batch,
           quantity: quantity,
-          totalQuantity:quantity * Number(pack),
+          totalQuantity: quantity * Number(pack),
           free,
         },
         config
@@ -150,7 +150,7 @@ export default function CreateStock() {
                   label="Product Name"
                   value={pname}
                   onChange={(e) => setPname(e.target.value)}
-                  sx={{ width: 500 }}
+                  sx={{ width: {xs:340,md:500} }}
                 />
                 <TextField
                   label="Pack"
@@ -193,7 +193,7 @@ export default function CreateStock() {
                 <TextField
                   label="SaltName"
                   value={saltname}
-                  sx={{ width: { lg: 500, xs: 450 } }}
+                  sx={{ width: { lg: 500, xs: 350 } }}
                   onChange={(e) => setSaltname(e.target.value)}
                 />
                 <TextField
@@ -217,12 +217,32 @@ export default function CreateStock() {
                     onChange={(neWValue) => setExpiry(neWValue)}
                   />
                 </LocalizationProvider>
-                <TextField
+                {/* <TextField
                   label="Location"
                   value={location}
                   sx={{ width: { lg: 400, xs: 250 } }}
                   onChange={(e) => setLocation(e.target.value)}
-                />
+                /> */}
+                {/* ---- */}
+                <FormControl >
+
+                <InputLabel id="demo-simple-select-label">Location</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={location}
+                  label="Location"
+                  placeholder="Location"
+                  sx={{ width: { lg: 400, xs: 340 },marginTop:{xs:"10px",sm:"0"},'& label': { color: 'red' } }}
+                  onChange={(e) => setLocation(e.target.value)}
+                  >
+                  <MenuItem value='Adakata'>Adakata</MenuItem>
+                  <MenuItem value='Sorada'>Sorada</MenuItem>
+                
+                </Select>
+                  </FormControl>
+                {/* ---- */}
+
               </Stack>
             </Stack>
             <Stack gap="20px">

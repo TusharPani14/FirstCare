@@ -16,6 +16,10 @@ import {
   Alert,
   Backdrop,
   CircularProgress,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Select,
   Modal,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -41,6 +45,7 @@ export default function CreateUser() {
   const navigate = useNavigate();
   const [userList, setUserList] = useState(() => []);
   const [open, setOpen] = useState(false);
+  const [location, setLocation] = useState("Adakata");
   const handleOpen = () => setOpen(true);
 
   const showToastMessage = () => {
@@ -75,6 +80,7 @@ export default function CreateUser() {
           id: id,
           email_phoneNo: userupd,
           password: pwdupd,
+          location
         },
         config
       );
@@ -88,6 +94,7 @@ export default function CreateUser() {
       console.log(e);
       setMessage(e.message);
       setOpenError(true);
+      setLoading(false);
     }
   }
 
@@ -105,6 +112,7 @@ export default function CreateUser() {
         {
           email_phoneNo: user,
           password: pwd,
+          location
         },
         config
       );
@@ -119,6 +127,7 @@ export default function CreateUser() {
       console.log(e);
       setMessage(e.message);
       setOpenError(true);
+      setLoading(false);
     }
   }
 
@@ -144,11 +153,13 @@ export default function CreateUser() {
           id: userItem._id,
           user: userItem.email_phoneNo,
           pwd: userItem.password,
+          location:userItem.location,
         };
       }
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -176,6 +187,7 @@ export default function CreateUser() {
       console.log(error);
       setMessage(error.message);
       setOpenError(true);
+      setLoading(false);
     }
     setOpen(false);
   }
@@ -219,6 +231,22 @@ export default function CreateUser() {
             value={pwd}
             onChange={(e) => setPwd(e.target.value)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={location}
+              label="Location"
+              placeholder="Location"
+              sx={{ "& label": { color: "red" } }}
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <MenuItem value="Adakata">Adakata</MenuItem>
+              <MenuItem value="Sorada">Sorada</MenuItem>
+              <MenuItem value="All">All</MenuItem>
+            </Select>
+          </FormControl>
           <Button variant="contained" onClick={createUser}>
             Create User
           </Button>
@@ -237,6 +265,22 @@ export default function CreateUser() {
             value={pwdupd}
             onChange={(e) => setPwdupd(e.target.value)}
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Location</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={location}
+              label="Location"
+              placeholder="Location"
+              sx={{ "& label": { color: "red" } }}
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <MenuItem value="Adakata">Adakata</MenuItem>
+              <MenuItem value="Sorada">Sorada</MenuItem>
+              <MenuItem value="All">All</MenuItem>
+            </Select>
+          </FormControl>
           <Button variant="contained" onClick={updateButton}>
             update User
           </Button>
@@ -251,23 +295,29 @@ export default function CreateUser() {
             <TableRow>
               <TableCell>User Info</TableCell>
               <TableCell>Password</TableCell>
+              <TableCell>Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
+            {console.log(userList)}
             {userList.map((n) => {
               return (
                 <TableRow>
                   <TableCell>{n.user}</TableCell>
                   <TableCell>{n.pwd}</TableCell>
+                  <TableCell>{n.location}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => updateUser(n)}>
                       <UpgradeIcon />
                     </IconButton>
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={() => {
-                      setId(n.id)
-                      setOpen(true)}}>
+                    <IconButton
+                      onClick={() => {
+                        setId(n.id);
+                        setOpen(true);
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

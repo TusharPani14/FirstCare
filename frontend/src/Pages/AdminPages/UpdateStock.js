@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
   IconButton,
-    Snackbar,
+  Snackbar,
   Alert,
   Backdrop,
   CircularProgress,
@@ -90,7 +90,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
   }
 
   async function Update() {
-    if(expiry===null || date===null){
+    if (expiry === null || date === null) {
       showToastMessage()
       return
     }
@@ -117,7 +117,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
         },
       };
       const { data } = await axios.put(
-        "http://localhost:5000/stock/update",
+        "/stock/update",
         {
           _id: uniqueId,
           productName: pname,
@@ -215,17 +215,17 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
     setOpenError(false);
   };
 
-const [page, setPage] = React.useState(0);
-const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-const handleChangePage = (event, newPage) => {
-  setPage(newPage);
-};
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-const handleChangeRowsPerPage = (event) => {
-  setRowsPerPage(+event.target.value);
-  setPage(0);
-};
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
   return (
     <>
       <Box>
@@ -260,12 +260,12 @@ const handleChangeRowsPerPage = (event) => {
                 onChange={(e) => setRate(e.target.value)}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Entry Date"
-                    value={date}
-                    onChange={(neWValue) => setDate(neWValue)}
-                  />
-                </LocalizationProvider>
+                <DatePicker
+                  label="Entry Date"
+                  value={date}
+                  onChange={(neWValue) => setDate(neWValue)}
+                />
+              </LocalizationProvider>
             </Stack>
             <Stack
               sx={{ flexDirection: { xs: "coloumn", sm: "row" }, gap: "20px" }}
@@ -287,12 +287,29 @@ const handleChangeRowsPerPage = (event) => {
                   onChange={(neWValue) => setExpiry(neWValue)}
                 />
               </LocalizationProvider>
-              <TextField
-                  label="Location"
+              {/* <TextField
+                label="Location"
+                value={location}
+                sx={{ width: { lg: 400, xs: 250 } }}
+                onChange={(e) => setLocation(e.target.value)}
+              /> */}
+              <FormControl >
+
+                <InputLabel id="demo-simple-select-label">Location</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
                   value={location}
-                  sx={{ width: { lg: 400, xs: 250 } }}
+                  label="Location"
+                  placeholder="Location"
+                  sx={{ width: { lg: 400, xs: 250 },marginTop:{xs:"10px",sm:"0"}, '& label': { color: 'red' } }}
                   onChange={(e) => setLocation(e.target.value)}
-                />
+                >
+                  <MenuItem value='Adakata'>Adakata</MenuItem>
+                  <MenuItem value='Sorada'>Sorada</MenuItem>
+
+                </Select>
+              </FormControl>
             </Stack>
             <Stack
               sx={{ flexDirection: { xs: "coloumn", sm: "row" }, gap: "25px" }}
@@ -315,12 +332,12 @@ const handleChangeRowsPerPage = (event) => {
                 onChange={(e) => setFree(e.target.value)}
                 sx={{ width: 200 }}
               />
-               <TextField
-                  label="MFG"
-                  value={mfg}
-                
-                  onChange={(e) => setMfg(e.target.value)}
-                />
+              <TextField
+                label="MFG"
+                value={mfg}
+
+                onChange={(e) => setMfg(e.target.value)}
+              />
               <Button
                 variant="contained"
                 color="primary"
@@ -554,14 +571,14 @@ const handleChangeRowsPerPage = (event) => {
             </Table>
           </TableContainer>
           <TablePagination
-        rowsPerPageOptions={[10, 20,30]}
-        component="div"
-        count={info.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={info.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Box>
       </Box>
       <div>
@@ -639,7 +656,7 @@ const handleChangeRowsPerPage = (event) => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      
+
     </>
   );
 };
