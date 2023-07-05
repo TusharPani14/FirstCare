@@ -56,7 +56,7 @@ const StockList = () => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-      const stocks = await axios.get("/stock/get", config);
+      const stocks = await axios.get("/stock/getStockAdmin", config);
       const stocksList = stocks.data.stockList;
       if (stocksList) {
         Array.prototype.forEach.call(stocksList, (d) => {

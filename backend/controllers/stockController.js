@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const createStockModel = require("../models/stocksModel");
+const createUserModel = require("../models/userModel");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 dotenv.config();
@@ -23,6 +24,9 @@ const connectionPromises = connections.map((connection) => {
 let Stock1; // Declare variables outside the promise scope
 let Stock2;
 
+let User1; // Declare variables outside the promise scope
+let User2;
+
 // Wait for all connections to be established
 Promise.all(connectionPromises)
   .then((connectionInstances) => {
@@ -31,6 +35,15 @@ Promise.all(connectionPromises)
       name: connections[index].name,
       model: createStockModel(connection),
     }));
+
+    const userModels = connectionInstances.map((connection, index) => ({
+      name: connections[index].name,
+      model: createUserModel(connection),
+    }));
+
+    // Example usage
+    User1 = userModels.find((model) => model.name === "Connection1").model;
+    User2 = userModels.find((model) => model.name === "Connection2").model;
 
     // Example usage
     Stock1 = stockModels.find((model) => model.name === "Connection1").model;
@@ -134,6 +147,43 @@ const createStocks = asyncHandler(async (req, res) => {
 });
 
 const getStocks = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Search for user in User1 collection
+    const user1 = await User1.findById(userId);
+    if (user1) {
+      // User found in User1 collection, fetch stocks from Stock1
+      const stock1 = await Stock1.find({});
+      res.status(200).json({
+        message: "Stocks fetched successfully",
+        stockList: stock1,
+      });
+      return; // Return early after sending the response
+    }
+
+    // Search for user in User2 collection
+    const user2 = await User2.findById(userId);
+    if (user2) {
+      // User found in User2 collection, fetch stocks from Stock2
+      const stock2 = await Stock2.find({});
+      res.status(200).json({
+        message: "Stocks fetched successfully",
+        stockList: stock2,
+      });
+      return; // Return early after sending the response
+    }
+
+    // User not found in either User1 or User2 collection
+    res.status(404);
+    throw new Error("No stocks found");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const getStocksForAdmin = asyncHandler(async (req, res) => {
   try {
     const stock1 = await Stock1.find({});
     const stock2 = await Stock2.find({});
@@ -243,19 +293,9 @@ const updateStocks = asyncHandler(async (req, res) => {
         // Location is already in Stock1, update the stock in Stock1
         await Stock1.updateOne({ _id }, req.body);
       } else {
-        // Location has been changed, move the stock from Stock1 to Stock2
-
-        // Create a copy of the stock
-        const stockCopy = { ...stock._doc };
-
-        // Remove the stock from Stock1
-        await Stock1.deleteOne({ _id });
-
-        // Update the location to "Sorada"
-        stockCopy.location = "Sorada";
-
-        // Create the stock in Stock2
-        await Stock2.create(stockCopy);
+        // Location has been changed, throw an error
+        res.status(400);
+        throw new Error("This stock is of Adakata. Please verify the location you have entered.");
       }
     } else {
       // The stock is not present in Stock1, check if it's present in Stock2
@@ -267,19 +307,9 @@ const updateStocks = asyncHandler(async (req, res) => {
           // Location is already in Stock2, update the stock in Stock2
           await Stock2.updateOne({ _id }, req.body);
         } else {
-          // Location has been changed, move the stock from Stock2 to Stock1
-
-          // Create a copy of the stock
-          const stockCopy = { ...stock._doc };
-
-          // Remove the stock from Stock2
-          await Stock2.deleteOne({ _id });
-
-          // Update the location to "Adakata"
-          stockCopy.location = "Adakata";
-
-          // Create the stock in Stock1
-          await Stock1.create(stockCopy);
+          // Location has been changed, throw an error
+          res.status(400);
+          throw new Error("This stock is of Sorada. Please verify the location you have entered.");
         }
       } else {
         // Stock not found in either Stock1 or Stock2
@@ -341,4 +371,5 @@ module.exports = {
   updateStocks,
   deleteStocks,
   getStockCP,
+  getStocksForAdmin,
 };

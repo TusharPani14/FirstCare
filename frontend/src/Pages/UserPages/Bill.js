@@ -63,14 +63,14 @@ export default function Bill() {
       const billData = await axios.post(
         "/bill/create",
         {
-          userId:userInfo._id,
+          userId: userInfo._id,
           invoiceNo: invnum,
           name: username,
           invoiceDate: newInvoiceDate,
           phoneNo: phnnum,
           products: data,
           total,
-          location:backendLocation,
+          location: backendLocation,
         },
         config
       );
@@ -85,6 +85,7 @@ export default function Bill() {
       console.log(e);
       setMessage(e.message);
       setOpenError(true);
+      setLoading(false);
     }
   }
 
@@ -107,6 +108,7 @@ export default function Bill() {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -333,15 +335,19 @@ export default function Bill() {
                     value={
                       "At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093"
                     }
-                    onClick={()=>{setBackendLocation('Adakata')}}
-                    >
+                    onClick={() => {
+                      setBackendLocation("Adakata");
+                    }}
+                  >
                     Adakata
                   </MenuItem>
                   <MenuItem
                     value={
                       "At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091"
                     }
-                    onClick={()=>{setBackendLocation('Sorada')}}
+                    onClick={() => {
+                      setBackendLocation("Sorada");
+                    }}
                   >
                     Sorada
                   </MenuItem>
