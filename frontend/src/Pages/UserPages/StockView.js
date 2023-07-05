@@ -44,6 +44,7 @@ const StockView = () => {
       };
       const stocks = await axios.get("/stock/get", config);
       const stocksList = stocks.data.stockList;
+      
       if (stocksList) {
         Array.prototype.forEach.call(stocksList, (d) => {
           // Add Row
@@ -89,7 +90,8 @@ const StockView = () => {
       return;
     }
   };
-
+  const newStocksList = stockList;
+  StockSortAlgo(sortMethod, stockList,newStocksList, NewData);
   return (
     <>
       <Box sx={{ minHeight: "100vh" }}>
@@ -197,9 +199,9 @@ const StockView = () => {
         >
           <CircularProgress color="inherit" />
         </Backdrop>
-        {stockList[0] != null && <StockTable DataArray={stockList} />}{" "}
+        {stockList[0] != null && <StockTable DataArray={newStocksList} />}{" "}
       </Box>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 };
