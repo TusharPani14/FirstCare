@@ -113,8 +113,7 @@ const createUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   try {
     const { id, email_phoneNo, password, location } = req.body;
-
-    if (!email_phoneNo && !password) {
+    if (!email_phoneNo && !password && !location) {
       res.status(400);
       throw new Error("Please update at least one field");
     } else {
@@ -137,7 +136,6 @@ const updateUser = asyncHandler(async (req, res) => {
       } else if (location === "Sorada") {
         const user1 = await User1.findOne({ email_phoneNo });
         const user2 = await User2.findOne({ _id: id });
-
         if (user1 && user2) {
           // If user exists in both User1 and User2, remove user from User1
           updatedUser1 = await User1.deleteOne({ email_phoneNo });

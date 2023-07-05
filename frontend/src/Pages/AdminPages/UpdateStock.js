@@ -305,8 +305,8 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
                   sx={{ width: { lg: 400, xs: 250 },marginTop:{xs:"10px",sm:"0"}, '& label': { color: 'red' } }}
                   onChange={(e) => setLocation(e.target.value)}
                 >
-                  <MenuItem value='adakata'>Adakata</MenuItem>
-                  <MenuItem value='sorada'>Sorada</MenuItem>
+                  <MenuItem value='Adakata'>Adakata</MenuItem>
+                  <MenuItem value='Sorada'>Sorada</MenuItem>
 
                 </Select>
               </FormControl>

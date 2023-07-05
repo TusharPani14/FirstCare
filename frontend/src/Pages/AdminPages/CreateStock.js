@@ -236,8 +236,8 @@ export default function CreateStock() {
                   sx={{ width: { lg: 400, xs: 340 },marginTop:{xs:"10px",sm:"0"},'& label': { color: 'red' } }}
                   onChange={(e) => setLocation(e.target.value)}
                   >
-                  <MenuItem value='adakata'>Adakata</MenuItem>
-                  <MenuItem value='sorada'>Sorada</MenuItem>
+                  <MenuItem value='Adakata'>Adakata</MenuItem>
+                  <MenuItem value='Sorada'>Sorada</MenuItem>
                 
                 </Select>
                   </FormControl>

@@ -69,8 +69,16 @@ Promise.all(connectionPromises)
 
 const createBills = asyncHandler(async (req, res) => {
   try {
-    const { userId, invoiceNo, name, invoiceDate, phoneNo, products, total } =
-      req.body;
+    const {
+      userId,
+      invoiceNo,
+      name,
+      invoiceDate,
+      phoneNo,
+      products,
+      total,
+      location,
+    } = req.body;
     if (
       !userId ||
       !invoiceNo ||
@@ -83,20 +91,18 @@ const createBills = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error("Please enter all the fields");
     }
-
+    let billModel;
+    let user;
     // Check if the user exists in User1
-    let user = await User1.findOne({ _id: userId });
-    let billModel = Bill1;
-
-    // If user is not found in User1, check in User2
-    if (!user) {
-      user = await User2.findOne({ _id: userId });
+    if (location === "Adakata") {
+      billModel = Bill1;
+      user = await User1.findOne({ _id: userId });
+    } else if (location === "Sorada") {
       billModel = Bill2;
-    }
-
-    if (!user) {
+      user = await User2.findOne({ _id: userId });
+    } else {
       res.status(404);
-      throw new Error("User not found");
+      throw new Error("Invalid Location");
     }
 
     // Check if the bill already exists
@@ -111,7 +117,7 @@ const createBills = asyncHandler(async (req, res) => {
       const { pname, quantity } = product;
 
       let stockModel = Stock1;
-      if (user.location === "Sorada") {
+      if (location === "Sorada") {
         stockModel = Stock2;
       }
 
@@ -144,6 +150,7 @@ const createBills = asyncHandler(async (req, res) => {
       products,
       total,
       user: userId,
+      location
     });
 
     user.bills.push(bill._id);
