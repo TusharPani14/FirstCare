@@ -70,6 +70,7 @@ export default function Bill() {
           phoneNo: phnnum,
           products: data,
           total,
+          location:backendLocation,
         },
         config
       );
@@ -152,6 +153,7 @@ export default function Bill() {
   const [quantity, setQuantity] = useState("");
   const [phnnum, setPhnnum] = useState("");
   const [location, setLocation] = useState("");
+  const [backendLocation, setBackendLocation] = useState("");
   const [rate, setRate] = useState("");
   const [amount, setAmount] = useState(0);
   const [discount, setDiscount] = useState(null);
@@ -331,13 +333,15 @@ export default function Bill() {
                     value={
                       "At/Po-Adakata,Via-Madhyakhanda,P.s-Gania,Dist-Nayagarh,Pin-752093"
                     }
-                  >
+                    onClick={()=>{setBackendLocation('Adakata')}}
+                    >
                     Adakata
                   </MenuItem>
                   <MenuItem
                     value={
                       "At-Sorada,Po-Subalaya,P.s-Nuagaon,Dist-Nayagarh,Pin-752091"
                     }
+                    onClick={()=>{setBackendLocation('Sorada')}}
                   >
                     Sorada
                   </MenuItem>
