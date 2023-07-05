@@ -153,6 +153,7 @@ export default function CreateUser() {
           id: userItem._id,
           user: userItem.email_phoneNo,
           pwd: userItem.password,
+          location:userItem.location,
         };
       }
       setLoading(false);
@@ -294,14 +295,17 @@ export default function CreateUser() {
             <TableRow>
               <TableCell>User Info</TableCell>
               <TableCell>Password</TableCell>
+              <TableCell>Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
+            {console.log(userList)}
             {userList.map((n) => {
               return (
                 <TableRow>
                   <TableCell>{n.user}</TableCell>
                   <TableCell>{n.pwd}</TableCell>
+                  <TableCell>{n.location}</TableCell>
                   <TableCell>
                     <IconButton onClick={() => updateUser(n)}>
                       <UpgradeIcon />
