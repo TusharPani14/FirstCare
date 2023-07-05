@@ -117,7 +117,7 @@ const UpdateStock = ({ stockList, setUpdateTrigger, updateTrigger }) => {
         },
       };
       const { data } = await axios.put(
-        "http://localhost:5000/stock/update",
+        "/stock/update",
         {
           _id: uniqueId,
           productName: pname,
