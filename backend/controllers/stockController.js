@@ -196,8 +196,10 @@ const getStocksForAdmin = asyncHandler(async (req, res) => {
         stockList: allStocks,
       });
     } else {
-      res.status(404);
-      throw new Error("No stocks found");
+      res.status(200).json({
+        message: "No stocks found",
+        stockList: [],
+      });
     }
   } catch (e) {
     console.log(e);
