@@ -7,7 +7,10 @@ import {
   Select,
   Stack,
   Typography,
-  FormControl, InputLabel,TextField,Autocomplete
+  FormControl,
+  InputLabel,
+  TextField,
+  Autocomplete,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -21,6 +24,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UpdateStock from "./UpdateStock";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // import Footer from "../UserPages/Footer";
 
 const StockList = () => {
@@ -31,12 +37,12 @@ const StockList = () => {
   const [stockList, setStockList] = useState(() => []);
   // const [newStockList, setNewStockList] = useState(() => []);
   const [updateTrigger, setUpdateTrigger] = useState(false);
-  const [showloc,setShowloc] = useState("All")
+  const [showloc, setShowloc] = useState("All");
   let NewData = Data;
   let userInfo;
   // sorting function end
-  
-  const options =["Bhubaneswar","Cuttack","Puri"]
+
+  const options = ["Bhubaneswar", "Cuttack", "Puri"];
   const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const handleMenu2 = (event) => {
@@ -46,7 +52,7 @@ const StockList = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-  
+
   const fetchStocks = async () => {
     setLoading(true);
     setStockList(() => []);
@@ -58,15 +64,15 @@ const StockList = () => {
       };
       const stocks = await axios.get("/stock/getStockAdmin", config);
       const stocksList = stocks.data.stockList;
-      if (stocksList) {
-        Array.prototype.forEach.call(stocksList, (d) => {
-          // Add Row
-          setStockList((prevRows) => [...prevRows, myFunction(d)]);
-          //Failed To add location
-          // setLocation((prev) => [...prev, Location(d)]);
-        });
+      if (stocksList.length > 0) {
+        const updatedStockList = stocksList.map((stockItem) =>
+          myFunction(stockItem)
+        );
+        setStockList((prevRows) => [...prevRows, ...updatedStockList]);
+      } else {
+        toast.warn("No stocks found");
       }
-  
+
       function myFunction(stockItem) {
         return {
           id: stockItem._id,
@@ -83,7 +89,7 @@ const StockList = () => {
           quantity: stockItem.quantity,
           free: stockItem.free,
           rate: stockItem.rate,
-          purchaseRate: stockItem.purchaseRate
+          purchaseRate: stockItem.purchaseRate,
         };
       }
       setLoading(false);
@@ -96,7 +102,7 @@ const StockList = () => {
     userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) navigate("/");
   });
-  
+
   useEffect(() => {
     fetchStocks();
   }, []);
@@ -108,35 +114,34 @@ const StockList = () => {
   };
   // sort by location
 
-    let Location =[]
-  Location[0] = "All"
-  let j=1;
-  stockList.forEach(element => {
-      Location[j]=element.location;
-      j++;
+  let Location = [];
+  Location[0] = "All";
+  let j = 1;
+  stockList.forEach((element) => {
+    Location[j] = element.location;
+    j++;
   });
   let updateLocation = [...new Set(Location)];
 
-let newStockList=[];
+  let newStockList = [];
   let i = 0;
-  stockList.forEach(element => {
-    if(showloc==="All"){
-      newStockList[i]=stockList[i];
+  stockList.forEach((element) => {
+    if (showloc === "All") {
+      newStockList[i] = stockList[i];
       i++;
-    }
-   else if(element.location === showloc){
-      newStockList[i]=element;
+    } else if (element.location === showloc) {
+      newStockList[i] = element;
       i++;
     }
   });
 
   // console.log(newStockList)
-// sort by location
-StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
-
+  // sort by location
+  StockSortAlgo(sortMethod, stockList, newStockList, NewData, showloc);
 
   return (
     <>
+      <ToastContainer />
       {updateTrigger ? (
         <UpdateStock
           stockList={stockList}
@@ -200,7 +205,7 @@ StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
                   border: "2px solid #000",
                   padding: { xs: "5px", sm: "6px 15px", xl: "9px 30px" },
                   fontSize: { xs: "11px", sm: "12px", xl: "15px" },
-                  "&:hover":{marginLeft:"1.7px"},
+                  "&:hover": { marginLeft: "1.7px" },
                   fontWeight: "600",
                 }}
                 onClick={() => setUpdateTrigger(true)}
@@ -225,15 +230,21 @@ StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
                   sx={{ fontSize: { xs: "16px", sm: "17px", xl: "23px" } }}
                 />
               </CustYellowButton>
-                   <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={updateLocation}
-      value={showloc}
-      onChange={(e,v) => setShowloc(v)}
-      sx={{ width: 300 }}
-      renderInput={(params) => <TextField {...params}  onChange={({ target }) => setShowloc(target.value)} label="Location" />}
-    />
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={updateLocation}
+                value={showloc}
+                onChange={(e, v) => setShowloc(v)}
+                sx={{ width: 300 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    onChange={({ target }) => setShowloc(target.value)}
+                    label="Location"
+                  />
+                )}
+              />
               <Menu
                 sx={{ padding: "100px" }}
                 id="sort"
@@ -278,10 +289,10 @@ StockSortAlgo(sortMethod, stockList,newStockList, NewData,showloc);
                   Batch
                 </MenuItem>
                 {/* <MenuItem */}
-                  {/* onClick={() => setSortMethod("location")} */}
-                  {/* sx={{ textDecoration: "none" }} */}
+                {/* onClick={() => setSortMethod("location")} */}
+                {/* sx={{ textDecoration: "none" }} */}
                 {/* > */}
-                  {/* Location */}
+                {/* Location */}
                 {/* </MenuItem> */}
                 {/* </Link> */}
               </Menu>
